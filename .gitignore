@@ -41,6 +41,5 @@ build/
 .DS_Store
 
 
-
-/.json
-/.properties
+/Entity.json
+/Entity.properties.properties
