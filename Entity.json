@@ -1,0 +1,21 @@
+{
+  "classes" : [ {
+    "name" : "Sheep",
+    "count" : 1
+  }, {
+    "name" : "Caterpillar",
+    "count" : 1
+  }, {
+    "name" : "Goat",
+    "count" : 1
+  }, {
+    "name" : "Bear",
+    "count" : 1
+  }, {
+    "name" : "Wolf",
+    "count" : 2
+  }, {
+    "name" : "Deer",
+    "count" : 1
+  } ]
+}
