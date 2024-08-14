@@ -52,8 +52,8 @@ public class EntityFactory {
                     entities.add(entity);
                 }
             }
-            JOptionPane.showMessageDialog(null, "Все сущности созданны и готовы есть друг друга, размножатьстя" +
-                    " и бегать по полю!\n" + "                                         вы точно этого хотите ?!!!" );
+            JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
+                    " и бегать по полю!\n\n" + "                                         вы точно этого хотите ?!!!" );
         } catch (IOException | ReflectiveOperationException e) {
             e.printStackTrace();
         }
