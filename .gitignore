@@ -40,7 +40,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-
-
-/.json
-/.properties
+Entity.json
+Entity.properties

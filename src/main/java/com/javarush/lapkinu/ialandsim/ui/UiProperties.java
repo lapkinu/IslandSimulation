@@ -2,6 +2,8 @@ package com.javarush.lapkinu.ialandsim.ui;
 
 import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
+import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
+
 import static com.javarush.lapkinu.ialandsim.main.Play.*;
 
 import javax.swing.*;
@@ -159,13 +161,33 @@ public class UiProperties {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
 
+
+
+
+        // Создание экземпляра MapManager
+        int width = getWidthField();
+        int height = getHeightField();
+        MapManager mapManager = new MapManager(width, height);
+
+        // Создание экземпляра Render
+        int frameWidth = 1920;
+        int frameHeight = 1080;
+        Render render = new Render(mapManager, frameWidth, frameHeight);
+
+
+
+
+
+
+
+
         // Добавление кнопки сохранения
         JButton saveButton = new JButton("*** \uD83D\uDC07 START SIMULATION \uD83D\uDC07 ***");
         saveButton.addActionListener(e -> {
             // Логика сохранения данных
             useHeightAndWidth();
             saveProperties(model);
-            startSimulation();
+            startSimulation(mapManager, render);
         });
         panel.add(saveButton, BorderLayout.SOUTH);
 

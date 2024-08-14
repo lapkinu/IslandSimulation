@@ -1,28 +1,28 @@
 package com.javarush.lapkinu.ialandsim.ui;
 
-import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
+import com.javarush.lapkinu.ialandsim.entity.Entity;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Render extends JPanel implements ActionListener {
+public class Render extends JPanel {
     private final Image backgroundImage;
     private final MapManager mapManager;
     private final int cellWidth;
     private final int cellHeight;
-    private final Timer animationTimer;
 
     public Render(MapManager mapManager, int frameWidth, int frameHeight) {
         this.mapManager = mapManager;
         this.cellWidth = frameWidth / mapManager.getWidth();
         this.cellHeight = frameHeight / mapManager.getHeight();
         backgroundImage = new ImageIcon("src/main/resources/img/field/Field.png").getImage();
-        Timer timer = new Timer(1000, this);
-        timer.start();
-        animationTimer = new Timer(1, e -> animateEntities());
+
+        // Таймер для анимации объектов
+        Timer animationTimer = new Timer(10, e -> {
+            animateEntities();
+            repaint();
+        });
         animationTimer.start();
     }
 
@@ -37,22 +37,17 @@ public class Render extends JPanel implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        mapManager.updateAnimalPositions();
-    }
-
-    private void animateEntities() {
+    public void animateEntities() {
         for (Entity entity : mapManager.getAnimalList()) {
             double currentX = entity.getCurrentX();
             double currentY = entity.getCurrentY();
             double endX = entity.getEndX();
             double endY = entity.getEndY();
-            double deltaX = (endX - currentX) * 0.08; // Adjust the factor for smoother animation
-            double deltaY = (endY - currentY) * 0.08; // Adjust the factor for smoother animation
+            double deltaX = (endX - currentX) * 0.08;
+            double deltaY = (endY - currentY) * 0.08;
             entity.setCurrentX(currentX + deltaX);
             entity.setCurrentY(currentY + deltaY);
         }
-        repaint();
     }
+
 }

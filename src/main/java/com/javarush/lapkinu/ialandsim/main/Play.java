@@ -18,12 +18,9 @@ public class Play {
         SwingUtilities.invokeLater(UiProperties::new);
     }
 
-    public static void startSimulation() {
+    public static void startSimulation(MapManager mapManager, Render render) {
         Path propertiesFilePath = FilePathConfig.getPropertiesPath();
         Path jsonFilePath = FilePathConfig.getJsonPath();
-        int width = UiProperties.getWidthField();
-        int height = UiProperties.getHeightField();
-        MapManager mapManager = new MapManager(width, height);
         RandomActions randomActions = new RandomActions(mapManager.getWidth(), mapManager.getHeight());
         JsonFileCreator.jsonCreated(jsonFilePath, propertiesFilePath);
         List<Entity> listEntity = EntityFactory.createAnimals(jsonFilePath, propertiesFilePath);
@@ -38,15 +35,10 @@ public class Play {
 
         JFrame frame = new JFrame("Island Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 1080); // 2560, 2664  | 1920, 1080 | 800, 600
-        frame.add(new Render(mapManager, 1920, 1080));
+        frame.setSize(1920, 1080);
+        frame.add(render);
         frame.setVisible(true);
 
-
-// run in a separate thread so as not to block the main thread
-
-
-        // Обновленный код в классе Play
         new Timer(1000, e -> {
             if (mapManager.getAnimalCount() > 0) {
                 for (Entity entity : listEntity) {
@@ -59,6 +51,8 @@ public class Play {
                     }
                 }
                 mapManager.displayGrid();
+                render.animateEntities();
+                render.repaint();
                 System.out.println("___________________________________________________________");
             }
         }).start();
