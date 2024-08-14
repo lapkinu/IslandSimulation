@@ -67,4 +67,15 @@ public class EntityFactory {
         return entities;
     }
 
+    public static Entity createEntity(Entity entity) {
+        Entity newEntity = null;
+        try {
+            Class<?> clazz = entity.getClass();
+            Constructor<?> constructor = clazz.getConstructor(double.class, int.class);
+            newEntity = (Entity) constructor.newInstance(entity.getWeight(), entity.getSpeed());
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
+        return newEntity;
+    }
 }

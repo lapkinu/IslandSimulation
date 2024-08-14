@@ -97,6 +97,7 @@ public class MapManager {
                 System.out.println("Ячейка " +cells[i][j] + " содержит - " + getAnimalCountInCell(i, j) + " сущностей: " + entities);
             }
         }
+        System.out.println("___________________________________________________________");
     }
 
     // метод для количества всех животных в ячейке
