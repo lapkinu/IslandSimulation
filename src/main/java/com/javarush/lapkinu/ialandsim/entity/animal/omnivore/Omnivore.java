@@ -21,7 +21,6 @@ public abstract class Omnivore implements Entity {
     private double prevX;
     private double prevY;
 
-
     protected Omnivore(int id, double weightMax, int speed, Image image) {
         this.id = id;
         this.weightMax = weightMax;
@@ -29,7 +28,6 @@ public abstract class Omnivore implements Entity {
         this.weight = weightMax;
         this.image = image;
     }
-
 
     public double getPrevX() {
         return prevX;
@@ -46,10 +44,6 @@ public abstract class Omnivore implements Entity {
     public void setPrevY(double prevY) {
         this.prevY = prevY;
     }
-
-
-
-
 
     @Override
     public int getID() {
@@ -101,11 +95,9 @@ public abstract class Omnivore implements Entity {
     }
     @Override
     public void move() {
-        // Логика передвижения
     }
     @Override
     public void reproduce() {
-        // Логика размножения
     }
 
     @Override
@@ -175,7 +167,6 @@ public abstract class Omnivore implements Entity {
         this.currentY = currentY;
     }
 
-    // Обновленный метод updatePosition в классе Predator
     @Override
     public void updatePosition(int fieldWidth, int fieldHeight) {
         PositionManager.updatePosition(this, fieldWidth, fieldHeight);
@@ -197,4 +188,5 @@ public abstract class Omnivore implements Entity {
                 this.getAlive()
         );
     }
+
 }

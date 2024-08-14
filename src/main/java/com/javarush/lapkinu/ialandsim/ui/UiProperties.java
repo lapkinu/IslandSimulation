@@ -18,50 +18,37 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-
-
 public class UiProperties {
     private static final String[] COLUMN_NAMES = {"Entity", "Quantity", "Weight", "Speed"};
-    //private static final String[] PARAM_NAMES = {"count", "weight", "speed"};
     private static final Properties properties = new Properties();
     private static final Path pathPropertiesFile = FilePathConfig.getPropertiesPath();
-
-    // Поля для хранения текстовых полей "Высота" и "Ширина"
     private static JTextField heightField;
     private static JTextField widthField;
     private int frameWidth;
     private int frameHeight;
 
     public UiProperties() {
-
-
-
-        // Создание окна
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 500);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
-
-        // Создание панели для текстовых полей "Высота" и "Ширина"
-        JPanel inputPanel = new JPanel(new GridLayout(1, 4, 5, 5)); // Используем GridLayout для ровного размещения
+        JPanel inputPanel = new JPanel(new GridLayout(1, 4, 5, 5));
         JLabel heightLabel = new JLabel("Высота:");
         heightField = new JTextField(5);
         JLabel widthLabel = new JLabel("Ширина:");
         widthField = new JTextField(5);
 
-        //значение по умолчанию
         heightField.setText("10");
         widthField.setText("10");
 
-        // Добавляем компоненты на панель
         inputPanel.add(heightLabel);
         inputPanel.add(heightField);
         inputPanel.add(widthLabel);
         inputPanel.add(widthField);
 
-        String[] windowSizes = {"", "640x480", "720x480", "720x576",
+        String[] windowSizes = {"win size", "640x480", "720x480", "720x576",
                   "800x600", "1024x768", "1280x720", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
         JComboBox<String> windowSizeComboBox = new JComboBox<>(windowSizes);
         windowSizeComboBox.addActionListener(e -> {
@@ -71,16 +58,14 @@ public class UiProperties {
                 if (size.length == 2) {
                     this.frameWidth = Integer.parseInt(size[0]);
                     this.frameHeight = Integer.parseInt(size[1]);
-
                 }
             }
         });
         inputPanel.add(windowSizeComboBox);
 
-
-
         // Загрузка данных из properties файла
         loadProperties();
+
         // Создание модели таблицы
         DefaultTableModel model = new DefaultTableModel(getDataFromProperties(), COLUMN_NAMES) {
             @Override
@@ -88,12 +73,11 @@ public class UiProperties {
                 return column != 0; // Первый столбец не редактируемый
             }
         };
+
         // Создание таблицы
         JTable table = new JTable(model);
         table.setGridColor(Color.BLACK); // Установка цвета границ
         table.setShowGrid(true); // Включение отображения границ
-
-
 
         // Добавление поведения для замены текста
         table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
@@ -114,6 +98,7 @@ public class UiProperties {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER); // Центрирование по горизонтали
         centerRenderer.setVerticalAlignment(JLabel.CENTER); // Центрирование по вертикали
+
         // Применение рендерера ко всем столбцам
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
@@ -125,13 +110,13 @@ public class UiProperties {
                                                            boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 component.setFont(new Font("Arial", Font.BOLD, 16)); // Установка шрифта
-                //setHorizontalAlignment(JLabel.CENTER); // Центрирование по горизонтали
-                //setVerticalAlignment(JLabel.CENTER);   // Центрирование по вертикали
                 return component;
             }
         };
+
         // Применение рендерера к первому столбцу
         table.getColumnModel().getColumn(0).setCellRenderer(firstColumnRenderer);
+
         // Настройка выделения
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setColumnSelectionAllowed(true);
@@ -141,18 +126,18 @@ public class UiProperties {
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(JLabel.CENTER); // Центрирование заголовков по горизонтали
         headerRenderer.setVerticalAlignment(JLabel.CENTER); // Центрирование заголовков по вертикали
+
         // Установка ширины столбцов
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
         table.getColumnModel().getColumn(1).setPreferredWidth(50);
         table.getColumnModel().getColumn(2).setPreferredWidth(50);
         table.getColumnModel().getColumn(3).setPreferredWidth(50);
-        Font font = new Font("Arial", Font.PLAIN, 16); // Установка шрифта Arial, обычный, размер 14
+        Font font = new Font("Arial", Font.PLAIN, 16);
         table.setFont(font);
-        table.setRowHeight(24); // Установка высоты строки для лучшего отображения
+        table.setRowHeight(24); // Установка высоты строки
+
         // Установка шрифта для заголовков
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
-        // Исправление проблемы с выделением текста
-        //table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
         // Добавление слушателя для предотвращения выделения текста в редакторе ячейки
         table.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
@@ -170,11 +155,11 @@ public class UiProperties {
             }
             @Override
             public void editingCanceled(ChangeEvent e) {
-                // Не требуется действие
             }
         });
 
         JScrollPane scrollPane = new JScrollPane(table);
+
         // Добавление границы вокруг таблицы
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 15));
 
@@ -182,35 +167,15 @@ public class UiProperties {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
 
-
-
-
-
-
-
-
-
-
-
-
-
-        // Добавление кнопки сохранения
+        // Добавление кнопки сохранения и запуска симуляции
         JButton saveButton = new JButton("*** \uD83D\uDC07 START SIMULATION \uD83D\uDC07 ***");
         saveButton.addActionListener(e -> {
-            useHeightAndWidth();
+            //useHeightAndWidth();
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
             Render render = new Render(mapManager, frameWidth, frameHeight); // 1920, 1080
             startSimulation(mapManager, render, frameWidth, frameHeight);
         });
-
-
-
-
-
-
-
-
 
         panel.add(saveButton, BorderLayout.SOUTH);
 
@@ -234,28 +199,6 @@ public class UiProperties {
 
     public static int getWidthField() {
         return Integer.parseInt(widthField.getText());
-    }
-
-
-    public int getFrameWidth() {
-        return frameWidth;
-    }
-
-    public int getFrameHeight() {
-        return frameHeight;
-    }
-
-    // Метод для использования значений из текстовых полей "Высота" и "Ширина"
-    private void useHeightAndWidth() {
-        try {
-            int height = Integer.parseInt(heightField.getText());
-            int width = Integer.parseInt(widthField.getText());
-            // Пример использования: изменение размера окна
-            System.out.println("Height: " + height + ", Width: " + width);
-            // Здесь можно добавить логику для изменения размеров компонентов или выполнения других действий
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Введите корректные числовые значения для высоты и ширины.", "Ошибка ввода", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     // Метод для загрузки данных из properties файла

@@ -14,8 +14,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class EntityFactory {
-    //private static final String propertiesFilePath = "constructor.properties";
-    //private static final String jsonFifePath = "config.json";
+
     private static final Map<String, String> mapClassInfo = new HashMap<>();
 
     static {
@@ -40,27 +39,21 @@ public class EntityFactory {
                 // Получение параметров конструктора из файла свойств
                 double weight = Double.parseDouble(properties.getProperty(className + ".weight"));
                 int speed = Integer.parseInt(properties.getProperty(className + ".speed"));
-
-
-                //Image image = new ImageIcon(properties.getProperty(className + ".icon")).getImage();
-
-
                 // Получение полного имени класса из словаря
                 String fullClassName = mapClassInfo.get(className);
                 if (fullClassName == null) {
                     throw new RuntimeException("Class not found for name: " + className);
                 }
-                // Динамическое создание объектов
+                // создание объектов
                 Class<?> clazz = Class.forName(fullClassName);
                 Constructor<?> constructor = clazz.getConstructor(double.class, int.class);
                 for (int i = 0; i < count; i++) {
                     Entity entity = (Entity) constructor.newInstance(weight, speed);
                     entities.add(entity);
                 }
-
             }
             JOptionPane.showMessageDialog(null, "Все сущности созданны и готовы есть друг друга, размножатьстя" +
-                    " и бегать по полю!\n" + "                                      вы точно этого хотите ?!!!" );
+                    " и бегать по полю!\n" + "                                         вы точно этого хотите ?!!!" );
         } catch (IOException | ReflectiveOperationException e) {
             e.printStackTrace();
         }
@@ -78,4 +71,5 @@ public class EntityFactory {
         }
         return newEntity;
     }
+
 }

@@ -31,7 +31,7 @@ public class Play {
             mapManager.addAnimalToCell(entity, x, y);
             entity.setStartX(x); entity.setStartY(y); entity.setEndX(x); entity.setEndY(y);
         }
-        //mapManager.displayGrid();
+        mapManager.displayGrid();
         System.out.println("______________ ^ инициализация сущностей на карте ^ ____________________\n");
 
         JFrame frame = new JFrame("Island Simulation");
@@ -40,8 +40,6 @@ public class Play {
         frame.add(render);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-
 
         new Timer(1000, e -> {
             if (mapManager.getAnimalCount() > 0) {

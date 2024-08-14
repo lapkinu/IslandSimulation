@@ -12,7 +12,6 @@ public class RandomActions {
     }
 
     ThreadLocalRandom tr = ThreadLocalRandom.current();
-
     public int randomPositionX() {
         return tr.nextInt(0, width);
     }
@@ -20,7 +19,4 @@ public class RandomActions {
         return tr.nextInt(0, height);
     }
 
-    public int numberOfCopies() {
-        return tr.nextInt(1, 10);
-    }
 }

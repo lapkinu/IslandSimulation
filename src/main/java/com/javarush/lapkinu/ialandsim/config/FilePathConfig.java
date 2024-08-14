@@ -5,8 +5,8 @@ import java.nio.file.Paths;
 
 public class FilePathConfig {
 
-    private static final Path DEFAULT_JSON_FILE_NAME = Paths.get("Entity.json");
-    private static final Path DEFAULT_PROPERTIES_FILE_NAME = Paths.get("Entity.properties");
+    private static final Path DEFAULT_JSON_FILE_NAME = Paths.get("src/main/resources/Entity.json");
+    private static final Path DEFAULT_PROPERTIES_FILE_NAME = Paths.get("src/main/resources/Entity.properties");
 
     public static Path getJsonPath() {
         return DEFAULT_JSON_FILE_NAME;

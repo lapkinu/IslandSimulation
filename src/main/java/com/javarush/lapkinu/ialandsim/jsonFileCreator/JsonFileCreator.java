@@ -19,12 +19,9 @@ public class JsonFileCreator {
 
     public static void jsonCreated(Path jsonFilePath, Path propertiesFilePath) {
         Map<String, Integer> animalCountsBase = readFileProperties(propertiesFilePath);
-        // Создаем объект ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
-        // Создаем корневой объект JSON
         ObjectNode rootNode = objectMapper.createObjectNode();
         ArrayNode classesArray = objectMapper.createArrayNode();
-        // Заполняем массив JSON-объектами
         for (Map.Entry<String, Integer> entry : animalCountsBase.entrySet()) {
             ObjectNode classNode = objectMapper.createObjectNode();
             classNode.put("name", entry.getKey());
@@ -33,7 +30,6 @@ public class JsonFileCreator {
         }
         // Добавляем массив в корневой объект
         rootNode.set("classes", classesArray);
-        // Записываем JSON в файл
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(jsonFilePath.toString()), rootNode);
             System.out.println("Файл "  + FilePathConfig.getJsonPath() + " успешно создан!");
@@ -66,8 +62,7 @@ public class JsonFileCreator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Вывод Map для проверки результатов
-        //animalCounts.forEach((key, value) -> System.out.println(key + ": " + value));
         return animalCounts;
     }
+
 }

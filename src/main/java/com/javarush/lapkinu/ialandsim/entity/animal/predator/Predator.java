@@ -50,18 +50,22 @@ public abstract class Predator implements Entity {
     public int getID() {
         return id;
     }
+
     @Override
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
     @Override
     public double getWeight() {
         return weight;
     }
+
     @Override
     public int getSpeed() {
         return speed;
     }
+
     @Override
     public double getWeightMax() {
         return weightMax;
@@ -81,17 +85,18 @@ public abstract class Predator implements Entity {
     public void hunger() {
         setWeight(getWeight() - (getWeightMax() * 0.01));
     }
+
     @Override
     public void eat() {
         setWeight(getWeight() + 5);
     }
+
     @Override
     public void move() {
-        // Логика передвижения
     }
+
     @Override
     public void reproduce() {
-        // Логика размножения
     }
 
     @Override
@@ -161,11 +166,11 @@ public abstract class Predator implements Entity {
         this.currentY = currentY;
     }
 
-   // Обновленный метод updatePosition в классе Predator
-@Override
-public void updatePosition(int fieldWidth, int fieldHeight) {
-    PositionManager.updatePosition(this, fieldWidth, fieldHeight);
-}
+
+    @Override
+    public void updatePosition(int fieldWidth, int fieldHeight) {
+        PositionManager.updatePosition(this, fieldWidth, fieldHeight);
+    }
 
     @Override
     public String toString() {
@@ -183,4 +188,5 @@ public void updatePosition(int fieldWidth, int fieldHeight) {
                 this.getAlive()
         );
     }
+
 }

@@ -50,7 +50,6 @@ public class MapManager {
         }
     }
 
-
     // метод для возврата текущей позиции животного на карте
     public Cell getCell(Entity entity) {
         for (int i = 0; i < width; i++) {
@@ -66,10 +65,10 @@ public class MapManager {
     public int getCellX(Entity entity) {
         return getCell(entity).getX();
     }
+
     public int getCellY(Entity entity) {
         return getCell(entity).getY();
     }
-
 
     // метод для удаления животного с карты
     public void removeAnimal(Entity entity) {
@@ -87,7 +86,6 @@ public class MapManager {
         }
         addAnimalToCell(entity, newX, newY);
     }
-
 
     // Метод для отображения сетки и её животных
     public void displayGrid() {
@@ -124,12 +122,6 @@ public class MapManager {
             }
         }
         return list;
-    }
-
-    public void updateAnimalPositions() {
-        for (Entity entity : getAnimalList()) {
-            entity.updatePosition(getWidth(), getHeight());
-        }
     }
 
 }

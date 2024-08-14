@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-
 public class PropertyEditor extends JFrame {
     private static final String[] CLASS_NAMES = EntityProperties.getEntity();
     private static final String[] PARAM_NAMES = {"count", "weight", "speed"};

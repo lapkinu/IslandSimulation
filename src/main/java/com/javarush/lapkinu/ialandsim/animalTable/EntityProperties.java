@@ -103,17 +103,14 @@ public enum EntityProperties {
         return animals;
     }
 
-
-
     public static EntityProperties fromAnimal(Entity animal) {
         for (EntityProperties entity : values()) {
             if (entity.getPath().equals(animal.getClass().getName())) {
                 return entity;
             }
         }
-        return null; // or throw an exception if not found
+        return null;
     }
-
 
     public static void main(String[] args) {
         System.out.println(WOLF.getValueName());
