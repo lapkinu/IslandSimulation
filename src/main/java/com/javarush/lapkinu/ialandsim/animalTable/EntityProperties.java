@@ -142,8 +142,8 @@ public enum EntityProperties {
         Entity rabbit = new Rabbit(1, 1);
         Entity plants = new Plants(1, 1);
         List<Entity> listEntity = List.of(wolf, bear, goat, rabbit, plants);
-        System.out.print(getBestAnimalTable(rabbit, listEntity));
-        System.out.println(valueTable(formEntity(rabbit), formEntity(plants)));
+        System.out.print(getBestAnimalTable(goat, listEntity));
+        System.out.println(valueTable(formEntity(goat), formEntity(plants)));
         System.out.println(WOLF.getValueName());
         System.out.println(valueTable(WOLF, RABBIT));
         System.out.println(EntityProperties.values().length);

@@ -1,5 +1,6 @@
 package com.javarush.lapkinu.ialandsim.main;
 
+import com.javarush.lapkinu.ialandsim.action.Eating;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.factory.EntityFactory;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Play {
 
@@ -41,12 +44,15 @@ public class Play {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+
+        ExecutorService boardExecutor = Executors.newFixedThreadPool(5);
+
         new Timer(1000, e -> {
             if (mapManager.getAnimalCount() > 0) {
                 for (Entity entity : mapManager.getAnimalList()) {
                     Random random = new Random();
-                    int randomInt = random.nextInt(1,5);
-                    if (randomInt == 2) {
+                    int randomInt = random.nextInt(1,4);
+                    if (randomInt == 1) {
                         // переместить сущность
                         entity.updatePosition(mapManager.getWidth(), mapManager.getHeight());
                         mapManager.moveAnimal(entity, (int) entity.getEndX(), (int) entity.getEndY());
@@ -56,16 +62,18 @@ public class Play {
                             entity.hunger();
                         }
                     } else if (randomInt == 2) {
-                        // удалить сущность
-                        mapManager.removeAnimal(entity);
-                    } else if (randomInt == 3) {
+                        // попытка съесть другую сущность
+                        int cellX = mapManager.getCellX(entity);
+                        int cellY = mapManager.getCellY(entity);
+                        boardExecutor.submit(new Eating(mapManager, cellX, cellY));
+                    } /*else if (randomInt == 3) {
                         // создать новую сущность
                         Entity newEntity = EntityFactory.createEntity(entity);
                         int x = mapManager.getCellX(entity);
                         int y = mapManager.getCellY(entity);
                         mapManager.addAnimalToCell(newEntity, x, y);
                         newEntity.setStartX(x); newEntity.setStartY(y); newEntity.setEndX(x); newEntity.setEndY(y);
-                    }
+                    }*/
                 }
                 //mapManager.displayGrid();
                 render.animateEntities();
