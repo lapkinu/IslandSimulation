@@ -13,6 +13,7 @@ import com.javarush.lapkinu.ialandsim.ui.*;
 
 import javax.swing.*;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -30,6 +31,8 @@ public class Play {
         RandomActions randomActions = new RandomActions(mapManager.getWidth(), mapManager.getHeight());
         JsonFileCreator.jsonCreated(jsonFilePath, propertiesFilePath);
         List<Entity> listEntity = EntityFactory.createAnimals(jsonFilePath, propertiesFilePath);
+        // перемешиваем список сущностей
+        Collections.shuffle(listEntity);
         for (Entity entity : listEntity) {
             int x = randomActions.randomPositionX();
             int y = randomActions.randomPositionY();
@@ -54,7 +57,9 @@ public class Play {
 
         new Timer(1000, e -> {
             if (mapManager.getAnimalCount() > 0) {
-                for (Entity entity : mapManager.getAnimalList()) {
+                List<Entity> animalList = mapManager.getAnimalList();
+                Collections.shuffle(animalList);
+                for (Entity entity : animalList) {
                     Random random = new Random();
                     int randomInt = random.nextInt(1, 4);
                     if (randomInt == 1) {
@@ -69,7 +74,7 @@ public class Play {
                         }
                     } else if (randomInt == 3) {
                         // создать новую сущность
-                        if (Math.random() > 0.8) {
+                        if (Math.random() < 0.5) {
                             int cellX = mapManager.getCellX(entity);
                             int cellY = mapManager.getCellY(entity);
                             if (cellX != -1 && cellY != -1) {
