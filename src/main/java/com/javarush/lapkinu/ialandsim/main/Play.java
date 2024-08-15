@@ -53,9 +53,9 @@ public class Play {
                         if (entity.getWeight() <= (entity.getWeightMax() * 0.15)) {
                             mapManager.removeAnimal(entity);
                         } else {
-                            //entity.hunger();
+                            entity.hunger();
                         }
-                    } /*else if (randomInt == 2) {
+                    } else if (randomInt == 2) {
                         // удалить сущность
                         mapManager.removeAnimal(entity);
                     } else if (randomInt == 3) {
@@ -65,7 +65,7 @@ public class Play {
                         int y = mapManager.getCellY(entity);
                         mapManager.addAnimalToCell(newEntity, x, y);
                         newEntity.setStartX(x); newEntity.setStartY(y); newEntity.setEndX(x); newEntity.setEndY(y);
-                    }*/
+                    }
                 }
                 //mapManager.displayGrid();
                 render.animateEntities();

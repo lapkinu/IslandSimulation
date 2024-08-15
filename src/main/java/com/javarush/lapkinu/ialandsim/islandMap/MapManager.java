@@ -10,7 +10,7 @@ public class MapManager {
     private final int width;
     private final int height;
 
-    public MapManager(int width, int height) {
+    public  MapManager(int width, int height) {
         this.width = width;
         this.height = height;
         cells = new Cell[width][height];
@@ -23,6 +23,7 @@ public class MapManager {
         }
     }
 
+
     public int getHeight() {
         return height;
     }
@@ -32,7 +33,7 @@ public class MapManager {
     }
 
     // Метод для добавления животного в определенную ячейку
-    public void addAnimalToCell(Entity entity, int x, int y) {
+    public  void addAnimalToCell(Entity entity, int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             gridMap.get(cells[x][y]).add(entity);
         } else {
@@ -51,7 +52,7 @@ public class MapManager {
     }
 
     // метод для возврата текущей позиции животного на карте
-    public Cell getCell(Entity entity) {
+    public  Cell getCell(Entity entity) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (gridMap.get(cells[i][j]).contains(entity)) {
@@ -62,7 +63,7 @@ public class MapManager {
         return null;
     }
 
-    public int getCellX(Entity entity) {
+    public int  getCellX(Entity entity) {
         return getCell(entity).getX();
     }
 
@@ -71,7 +72,7 @@ public class MapManager {
     }
 
     // метод для удаления животного с карты
-    public void removeAnimal(Entity entity) {
+    public void  removeAnimal(Entity entity) {
         Cell cell = getCell(entity);
         if (cell != null) {
             gridMap.get(cell).remove(entity);

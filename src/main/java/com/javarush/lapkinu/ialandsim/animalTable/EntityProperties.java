@@ -1,9 +1,15 @@
 package com.javarush.lapkinu.ialandsim.animalTable;
 
 import com.javarush.lapkinu.ialandsim.entity.Entity;
+import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Goat;
+import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Plants;
+import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Rabbit;
+import com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear;
+import com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public enum EntityProperties {
 
@@ -47,7 +53,8 @@ public enum EntityProperties {
             {0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, -1, 0, 0, 90, 100},         // BOAR
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 100},           // BUFFALO
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 90, 100},          // DUCK
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 100}            // CATERPILLAR
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 100},           // CATERPILLAR
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}              // PLANTS
     };
     Image image;
 
@@ -103,16 +110,40 @@ public enum EntityProperties {
         return animals;
     }
 
-    public static EntityProperties fromAnimal(Entity animal) {
-        for (EntityProperties entity : values()) {
-            if (entity.getPath().equals(animal.getClass().getName())) {
-                return entity;
+    // метод принимает Entity и лист Entity и возвращает Entity с наибольшим значением в таблице animalTable
+    public static Entity getBestAnimalTable(Entity entity, List<Entity> listEntity) {
+        int bestValue = 0;
+        for (Entity entity1 : listEntity) {
+            int value = valueTable(formEntity(entity), formEntity(entity1));
+            if (value > bestValue) {
+                bestValue = value;
+                entity = entity1;
+            }
+        }
+        return entity;
+
+    }
+
+    // метод принимает Entity и возращает EntityProperties (WOLF, BOA, FOX, BEAR...)
+    public static EntityProperties formEntity(Entity entity) {
+        for (EntityProperties entityProperties : values()) {
+            if (entityProperties.getPath().equals(entity.getClass().getName())) {
+                return entityProperties;
             }
         }
         return null;
     }
 
+
     public static void main(String[] args) {
+        Entity wolf = new Wolf(1, 1);
+        Entity bear = new Bear(1, 1);
+        Entity goat = new Goat(1, 1);
+        Entity rabbit = new Rabbit(1, 1);
+        Entity plants = new Plants(1, 1);
+        List<Entity> listEntity = List.of(wolf, bear, goat, rabbit, plants);
+        System.out.print(getBestAnimalTable(rabbit, listEntity));
+        System.out.println(valueTable(formEntity(rabbit), formEntity(plants)));
         System.out.println(WOLF.getValueName());
         System.out.println(valueTable(WOLF, RABBIT));
         System.out.println(EntityProperties.values().length);
