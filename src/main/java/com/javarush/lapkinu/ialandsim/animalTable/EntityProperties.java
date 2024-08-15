@@ -7,10 +7,10 @@ import java.awt.*;
 
 public enum EntityProperties {
 
-    WOLF("Wolf", 0, 0,  50, 3, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf", "src/main/resources/img/icon/wolf.jpg"),
+    WOLF("Wolf", 0, 0,  50, 3, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf", "src/main/resources/img/icon/wolf.png"),
     BOA("Boa", 0, 0,  15, 1, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Boa", "src/main/resources/img/icon/boa.png"),
-    FOX("Fox", 0,  0, 8, 2, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Fox", "src/main/resources/img/icon/fox.jpg"),
-    BEAR("Bear", 0, 0, 500, 2, "com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear", "src/main/resources/img/icon/bear.jpg"),
+    FOX("Fox", 0,  0, 8, 2, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Fox", "src/main/resources/img/icon/fox.png"),
+    BEAR("Bear", 0, 0, 500, 2, "com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear", "src/main/resources/img/icon/bear.png"),
     EAGLE("Eagle", 0, 0, 6, 3, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Eagle", "src/main/resources/img/icon/eagle.png"),
     HORSE("Horse", 0, 0, 400, 4, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Horse", "src/main/resources/img/icon/horse.png"),
     DEER("Deer", 0,0, 300, 4, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Deer", "src/main/resources/img/icon/deer.png"),

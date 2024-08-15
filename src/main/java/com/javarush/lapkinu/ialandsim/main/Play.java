@@ -45,27 +45,27 @@ public class Play {
             if (mapManager.getAnimalCount() > 0) {
                 for (Entity entity : mapManager.getAnimalList()) {
                     Random random = new Random();
-                    int randomInt = random.nextInt(1,4);
-                    if (randomInt == 1) {
+                    int randomInt = random.nextInt(1,5);
+                    if (randomInt == 2) {
                         // переместить сущность
                         entity.updatePosition(mapManager.getWidth(), mapManager.getHeight());
                         mapManager.moveAnimal(entity, (int) entity.getEndX(), (int) entity.getEndY());
                         if (entity.getWeight() <= (entity.getWeightMax() * 0.15)) {
                             mapManager.removeAnimal(entity);
                         } else {
-                            entity.hunger();
+                            //entity.hunger();
                         }
-                    } else if (randomInt == 2) {
+                    } /*else if (randomInt == 2) {
                         // удалить сущность
                         mapManager.removeAnimal(entity);
                     } else if (randomInt == 3) {
                         // создать новую сущность
-                        Entity newEntity = EntityFactory.createEntity(entity); // напиши метод createEntity
+                        Entity newEntity = EntityFactory.createEntity(entity);
                         int x = mapManager.getCellX(entity);
                         int y = mapManager.getCellY(entity);
                         mapManager.addAnimalToCell(newEntity, x, y);
                         newEntity.setStartX(x); newEntity.setStartY(y); newEntity.setEndX(x); newEntity.setEndY(y);
-                    }
+                    }*/
                 }
                 //mapManager.displayGrid();
                 render.animateEntities();
