@@ -53,23 +53,27 @@ public class MapManager {
     }
 
     // метод для возврата текущей позиции животного на карте
-    public synchronized Cell getCell(Entity entity) {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (gridMap.get(cells[i][j]).contains(entity)) {
-                    return cells[i][j];
+    public Cell getCell(Entity entity) {
+        synchronized (gridMap) {
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    if (gridMap.get(cells[i][j]).contains(entity)) {
+                        return cells[i][j];
+                    }
                 }
             }
         }
         return null;
     }
 
-    public synchronized int  getCellX(Entity entity) {
-        return getCell(entity).getX();
+    public int getCellX(Entity entity) {
+        Cell cell = getCell(entity);
+        return cell != null ? cell.getX() : -1;
     }
 
-    public synchronized int getCellY(Entity entity) {
-        return getCell(entity).getY();
+    public int getCellY(Entity entity) {
+        Cell cell = getCell(entity);
+        return cell != null ? cell.getY() : -1;
     }
 
     // метод для удаления животного с карты

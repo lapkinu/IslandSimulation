@@ -4,8 +4,6 @@ import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.List;
 
 public class Eating  implements Runnable {

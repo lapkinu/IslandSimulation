@@ -1,6 +1,8 @@
 package com.javarush.lapkinu.ialandsim.main;
 
 import com.javarush.lapkinu.ialandsim.action.Eating;
+import com.javarush.lapkinu.ialandsim.action.Moving;
+import com.javarush.lapkinu.ialandsim.action.Reproduction;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.factory.EntityFactory;
@@ -32,7 +34,10 @@ public class Play {
             int x = randomActions.randomPositionX();
             int y = randomActions.randomPositionY();
             mapManager.addAnimalToCell(entity, x, y);
-            entity.setStartX(x); entity.setStartY(y); entity.setEndX(x); entity.setEndY(y);
+            entity.setStartX(x);
+            entity.setStartY(y);
+            entity.setEndX(x);
+            entity.setEndY(y);
         }
         mapManager.displayGrid();
         System.out.println("______________ ^ инициализация сущностей на карте ^ ____________________\n");
@@ -51,33 +56,34 @@ public class Play {
             if (mapManager.getAnimalCount() > 0) {
                 for (Entity entity : mapManager.getAnimalList()) {
                     Random random = new Random();
-                    int randomInt = random.nextInt(1,4);
+                    int randomInt = random.nextInt(1, 4);
                     if (randomInt == 1) {
                         // переместить сущность
-                        entity.updatePosition(mapManager.getWidth(), mapManager.getHeight());
-                        mapManager.moveAnimal(entity, (int) entity.getEndX(), (int) entity.getEndY());
-                        if (entity.getWeight() <= (entity.getWeightMax() * 0.15)) {
-                            mapManager.removeAnimal(entity);
-                        } else {
-                            entity.hunger();
-                        }
+                        boardExecutor.submit(new Moving(mapManager, entity));
                     } else if (randomInt == 2) {
                         // попытка съесть другую сущность
                         int cellX = mapManager.getCellX(entity);
                         int cellY = mapManager.getCellY(entity);
-                        boardExecutor.submit(new Eating(mapManager, cellX, cellY));
-                    } /*else if (randomInt == 3) {
+                        if (cellX != -1 && cellY != -1) {
+                            boardExecutor.submit(new Eating(mapManager, cellX, cellY));
+                        }
+                    } else if (randomInt == 3) {
                         // создать новую сущность
-                        Entity newEntity = EntityFactory.createEntity(entity);
-                        int x = mapManager.getCellX(entity);
-                        int y = mapManager.getCellY(entity);
-                        mapManager.addAnimalToCell(newEntity, x, y);
-                        newEntity.setStartX(x); newEntity.setStartY(y); newEntity.setEndX(x); newEntity.setEndY(y);
-                    }*/
+                        if (Math.random() > 0.8) {
+                            int cellX = mapManager.getCellX(entity);
+                            int cellY = mapManager.getCellY(entity);
+                            if (cellX != -1 && cellY != -1) {
+                                boardExecutor.submit(new Reproduction(mapManager, cellX, cellY));
+                            }
+                        }
+                    }
                 }
                 //mapManager.displayGrid();
                 render.animateEntities();
                 render.repaint();
+            } else {
+                ((Timer) e.getSource()).stop();
+                boardExecutor.shutdown();
             }
         }).start();
     }
