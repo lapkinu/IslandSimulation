@@ -2,6 +2,7 @@ package com.javarush.lapkinu.ialandsim.main;
 
 import com.javarush.lapkinu.ialandsim.action.Eating;
 import com.javarush.lapkinu.ialandsim.action.Moving;
+import com.javarush.lapkinu.ialandsim.action.AudioPlayer;
 import com.javarush.lapkinu.ialandsim.action.Reproduction;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.javarush.lapkinu.ialandsim.config.FilePathConfig.getAudioPath;
 
 public class Play {
 
@@ -51,9 +54,12 @@ public class Play {
         frame.add(render);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        AudioPlayer player = new AudioPlayer(getAudioPath(), true);
+        Thread audioThread = new Thread(player);
+        audioThread.start();
 
 
-        ExecutorService boardExecutor = Executors.newFixedThreadPool(5);
+        ExecutorService boardExecutor = Executors.newFixedThreadPool(20);
 
         new Timer(1000, e -> {
             if (mapManager.getAnimalCount() > 0) {
@@ -87,6 +93,12 @@ public class Play {
                 render.animateEntities();
                 render.repaint();
             } else {
+                player.loop = false;
+                try {
+                    audioThread.join();
+                } catch (InterruptedException e1) {
+                    e.getSource();
+                }
                 ((Timer) e.getSource()).stop();
                 boardExecutor.shutdown();
             }
