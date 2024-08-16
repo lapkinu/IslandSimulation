@@ -16,8 +16,6 @@ public class AudioPlayer implements Runnable {
         this.loop = loop;
     }
 
-
-
     @Override
     public void run() {
         do {
@@ -30,4 +28,7 @@ public class AudioPlayer implements Runnable {
         } while (loop);
     }
 
+    public void stop() {
+        loop = false;
+    }
 }

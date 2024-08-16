@@ -82,3 +82,14 @@ public class Play {
         }).start();
     }
 }
+
+
+
+ /* JCheckBox audioCheckBox = new JCheckBox("Включить аудио");
+        audioCheckBox.setSelected(true);
+        audioCheckBox.addActionListener(e -> {
+            //AudioPlayer player = new AudioPlayer(FilePathConfig.getAudioPath(), true);
+            //Thread audioThread = new Thread(player);
+            //audioThread.start();
+        });
+        inputPanel.add(audioCheckBox);*/

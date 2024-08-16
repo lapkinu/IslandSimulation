@@ -1,5 +1,6 @@
 package com.javarush.lapkinu.ialandsim.ui;
 
+import com.javarush.lapkinu.ialandsim.action.AudioPlayer;
 import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
@@ -26,6 +27,9 @@ public class UiProperties {
     private static JTextField widthField;
     private int frameWidth;
     private int frameHeight;
+    private AudioPlayer player;
+    private Thread audioThread;
+    private boolean isPlaying = false;
 
     public UiProperties() {
         JFrame frame = new JFrame("Config Table");
@@ -49,7 +53,7 @@ public class UiProperties {
         inputPanel.add(widthField);
 
         String[] windowSizes = {"win size", "640x480", "720x480", "720x576",
-                  "800x600", "1024x768", "1280x720", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
+                "800x600", "1024x768", "1280x720", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
         JComboBox<String> windowSizeComboBox = new JComboBox<>(windowSizes);
         windowSizeComboBox.addActionListener(e -> {
             String selectedSize = (String) windowSizeComboBox.getSelectedItem();
@@ -62,6 +66,17 @@ public class UiProperties {
             }
         });
         inputPanel.add(windowSizeComboBox);
+
+        JCheckBox audioCheckBox = new JCheckBox("аудио");
+        audioCheckBox.setSelected(false);
+        audioCheckBox.addActionListener(e -> {
+            if (audioCheckBox.isSelected() && !isPlaying) {
+                startAudioPlayer();
+            } else if (!audioCheckBox.isSelected() && isPlaying) {
+                stopAudioPlayer();
+            }
+        });
+        inputPanel.add(audioCheckBox);
 
         // Загрузка данных из properties файла
         loadProperties();
@@ -76,7 +91,7 @@ public class UiProperties {
 
         // Создание таблицы
         JTable table = new JTable(model);
-        table.setGridColor(Color.BLACK); // Установка цвета границ
+        table.setGridColor(Color.BLACK); // Установка ��вета границ
         table.setShowGrid(true); // Включение отображения границ
 
         // Добавление поведения для замены текста
@@ -153,6 +168,7 @@ public class UiProperties {
                     }
                 });
             }
+
             @Override
             public void editingCanceled(ChangeEvent e) {
             }
@@ -191,6 +207,27 @@ public class UiProperties {
 
         // Отображение окна
         frame.setVisible(true);
+    }
+
+    private void startAudioPlayer() {
+        player = new AudioPlayer(FilePathConfig.getAudioPath(), true);
+        audioThread = new Thread(player);
+        audioThread.start();
+        isPlaying = true;
+    }
+
+    private void stopAudioPlayer() {
+        if (player != null) {
+            player.stop();
+            try {
+                audioThread.join();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            player = null;
+            audioThread = null;
+            isPlaying = false;
+        }
     }
 
     public static int getHeightField() {
@@ -241,12 +278,11 @@ public class UiProperties {
         }
         try (FileOutputStream fos = new FileOutputStream(pathPropertiesFile.toFile())) {
             properties.store(fos, "Entity properties");
-            System.out.println("Файл "  + FilePathConfig.getPropertiesPath() + " успешно создан!");
+            System.out.println("Файл " + FilePathConfig.getPropertiesPath() + " успешно создан!");
             //JOptionPane.showMessageDialog(null, "Properties saved successfully!");
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error saving properties: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 }

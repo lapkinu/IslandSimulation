@@ -54,9 +54,10 @@ public class Play {
         frame.add(render);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        AudioPlayer player = new AudioPlayer(getAudioPath(), true);
+
+       /* AudioPlayer player = new AudioPlayer(getAudioPath(), true);
         Thread audioThread = new Thread(player);
-        audioThread.start();
+        audioThread.start();*/
 
 
         ExecutorService boardExecutor = Executors.newFixedThreadPool(20);
@@ -93,12 +94,12 @@ public class Play {
                 render.animateEntities();
                 render.repaint();
             } else {
-                player.loop = false;
+               /* player.loop = false;
                 try {
                     audioThread.join();
                 } catch (InterruptedException e1) {
                     e.getSource();
-                }
+                }*/
                 ((Timer) e.getSource()).stop();
                 boardExecutor.shutdown();
             }
