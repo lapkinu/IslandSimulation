@@ -3,6 +3,7 @@ package com.javarush.lapkinu.ialandsim.islandMap;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MapManager {
     private final Cell[][] cells;
@@ -10,11 +11,11 @@ public class MapManager {
     private final int width;
     private final int height;
 
-    public MapManager(int width, int height) {
+    public  MapManager(int width, int height) {
         this.width = width;
         this.height = height;
         cells = new Cell[width][height];
-        gridMap = new HashMap<>();
+        gridMap = new ConcurrentHashMap<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cells[i][j] = new Cell(i, j);
@@ -22,6 +23,7 @@ public class MapManager {
             }
         }
     }
+
 
     public int getHeight() {
         return height;
@@ -32,7 +34,7 @@ public class MapManager {
     }
 
     // Метод для добавления животного в определенную ячейку
-    public void addAnimalToCell(Entity entity, int x, int y) {
+    public synchronized void addAnimalToCell(Entity entity, int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             gridMap.get(cells[x][y]).add(entity);
         } else {
@@ -41,7 +43,7 @@ public class MapManager {
     }
 
     // Метод для получения животных в определенной ячейке
-    public List<Entity> getAnimalsInCell(int x, int y) {
+    public synchronized List<Entity> getAnimalsInCell(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return gridMap.get(cells[x][y]);
         } else {
@@ -52,10 +54,12 @@ public class MapManager {
 
     // метод для возврата текущей позиции животного на карте
     public Cell getCell(Entity entity) {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (gridMap.get(cells[i][j]).contains(entity)) {
-                    return cells[i][j];
+        synchronized (gridMap) {
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    if (gridMap.get(cells[i][j]).contains(entity)) {
+                        return cells[i][j];
+                    }
                 }
             }
         }
@@ -63,15 +67,17 @@ public class MapManager {
     }
 
     public int getCellX(Entity entity) {
-        return getCell(entity).getX();
+        Cell cell = getCell(entity);
+        return cell != null ? cell.getX() : -1;
     }
 
     public int getCellY(Entity entity) {
-        return getCell(entity).getY();
+        Cell cell = getCell(entity);
+        return cell != null ? cell.getY() : -1;
     }
 
     // метод для удаления животного с карты
-    public void removeAnimal(Entity entity) {
+    public synchronized void  removeAnimal(Entity entity) {
         Cell cell = getCell(entity);
         if (cell != null) {
             gridMap.get(cell).remove(entity);
@@ -79,7 +85,7 @@ public class MapManager {
     }
 
     // метод для перемещения животного на новую позицию на карте
-    public void moveAnimal(Entity entity, int newX, int newY) {
+    public synchronized void moveAnimal(Entity entity, int newX, int newY) {
         Cell oldCell = getCell(entity);
         if (oldCell != null) {
             gridMap.get(oldCell).remove(entity);
@@ -114,7 +120,7 @@ public class MapManager {
         return count;
     }
 
-    public List<Entity> getAnimalList() {
+    public synchronized List<Entity> getAnimalList() {
         List<Entity> list = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {

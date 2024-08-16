@@ -1,16 +1,22 @@
 package com.javarush.lapkinu.ialandsim.animalTable;
 
 import com.javarush.lapkinu.ialandsim.entity.Entity;
+import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Goat;
+import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Plants;
+import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Rabbit;
+import com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear;
+import com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public enum EntityProperties {
 
-    WOLF("Wolf", 0, 0,  50, 3, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf", "src/main/resources/img/icon/wolf.jpg"),
+    WOLF("Wolf", 0, 0,  50, 3, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf", "src/main/resources/img/icon/wolf.png"),
     BOA("Boa", 0, 0,  15, 1, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Boa", "src/main/resources/img/icon/boa.png"),
-    FOX("Fox", 0,  0, 8, 2, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Fox", "src/main/resources/img/icon/fox.jpg"),
-    BEAR("Bear", 0, 0, 500, 2, "com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear", "src/main/resources/img/icon/bear.jpg"),
+    FOX("Fox", 0,  0, 8, 2, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Fox", "src/main/resources/img/icon/fox.png"),
+    BEAR("Bear", 0, 0, 500, 2, "com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear", "src/main/resources/img/icon/bear.png"),
     EAGLE("Eagle", 0, 0, 6, 3, "com.javarush.lapkinu.ialandsim.entity.animal.predator.Eagle", "src/main/resources/img/icon/eagle.png"),
     HORSE("Horse", 0, 0, 400, 4, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Horse", "src/main/resources/img/icon/horse.png"),
     DEER("Deer", 0,0, 300, 4, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Deer", "src/main/resources/img/icon/deer.png"),
@@ -47,7 +53,8 @@ public enum EntityProperties {
             {0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, -1, 0, 0, 90, 100},         // BOAR
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 100},           // BUFFALO
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 90, 100},          // DUCK
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 100}            // CATERPILLAR
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 100},           // CATERPILLAR
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}              // PLANTS
     };
     Image image;
 
@@ -103,16 +110,40 @@ public enum EntityProperties {
         return animals;
     }
 
-    public static EntityProperties fromAnimal(Entity animal) {
-        for (EntityProperties entity : values()) {
-            if (entity.getPath().equals(animal.getClass().getName())) {
-                return entity;
+    // метод принимает Entity и лист Entity и возвращает Entity с наибольшим значением в таблице animalTable
+    public static Entity getBestAnimalTable(Entity entity, List<Entity> listEntity) {
+        int bestValue = 0;
+        for (Entity entity1 : listEntity) {
+            int value = valueTable(formEntity(entity), formEntity(entity1));
+            if (value > bestValue) {
+                bestValue = value;
+                entity = entity1;
+            }
+        }
+        return entity;
+
+    }
+
+    // метод принимает Entity и возращает EntityProperties (WOLF, BOA, FOX, BEAR...)
+    public static EntityProperties formEntity(Entity entity) {
+        for (EntityProperties entityProperties : values()) {
+            if (entityProperties.getPath().equals(entity.getClass().getName())) {
+                return entityProperties;
             }
         }
         return null;
     }
 
+
     public static void main(String[] args) {
+        Entity wolf = new Wolf(1, 1);
+        Entity bear = new Bear(1, 1);
+        Entity goat = new Goat(1, 1);
+        Entity rabbit = new Rabbit(1, 1);
+        Entity plants = new Plants(1, 1);
+        List<Entity> listEntity = List.of(wolf, bear, goat, rabbit, plants);
+        System.out.print(getBestAnimalTable(goat, listEntity));
+        System.out.println(valueTable(formEntity(goat), formEntity(plants)));
         System.out.println(WOLF.getValueName());
         System.out.println(valueTable(WOLF, RABBIT));
         System.out.println(EntityProperties.values().length);

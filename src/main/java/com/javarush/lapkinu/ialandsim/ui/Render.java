@@ -33,7 +33,7 @@ public class Render extends JPanel {
         for (Entity entity : mapManager.getAnimalList()) {
             int x = (int) (entity.getCurrentX() * cellWidth);
             int y = (int) (entity.getCurrentY() * cellHeight);
-            g.drawImage(entity.getImage(), x, y, cellWidth, cellHeight, this);
+            g.drawImage(entity.getImage(), x, y , cellWidth, cellHeight, this);
         }
     }
 
@@ -43,8 +43,8 @@ public class Render extends JPanel {
             double currentY = entity.getCurrentY();
             double endX = entity.getEndX();
             double endY = entity.getEndY();
-            double deltaX = (endX - currentX) * 0.06;
-            double deltaY = (endY - currentY) * 0.06;
+            double deltaX = (endX - currentX) * 0.02;
+            double deltaY = (endY - currentY) * 0.02;
             entity.setCurrentX(currentX + deltaX);
             entity.setCurrentY(currentY + deltaY);
         }

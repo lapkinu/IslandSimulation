@@ -1,5 +1,6 @@
 package com.javarush.lapkinu.ialandsim.ui;
 
+import com.javarush.lapkinu.ialandsim.action.AudioPlayer;
 import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
@@ -26,11 +27,14 @@ public class UiProperties {
     private static JTextField widthField;
     private int frameWidth;
     private int frameHeight;
+    private AudioPlayer player;
+    private Thread audioThread;
+    private boolean isPlaying = false;
 
     public UiProperties() {
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 500);
+        frame.setSize(800, 520);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
@@ -40,17 +44,18 @@ public class UiProperties {
         JLabel widthLabel = new JLabel("Ширина:");
         widthField = new JTextField(5);
 
-        heightField.setText("10");
-        widthField.setText("10");
+        heightField.setText("30");
+        widthField.setText("25");
 
         inputPanel.add(heightLabel);
         inputPanel.add(heightField);
         inputPanel.add(widthLabel);
         inputPanel.add(widthField);
 
-        String[] windowSizes = {"win size", "640x480", "720x480", "720x576",
-                  "800x600", "1024x768", "1280x720", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
+        String[] windowSizes = { "640x480", "720x480",
+                "800x600", "1024x768", "1280x720", "1560x900", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
         JComboBox<String> windowSizeComboBox = new JComboBox<>(windowSizes);
+        windowSizeComboBox.setSelectedItem("1560x900"); // Set default value
         windowSizeComboBox.addActionListener(e -> {
             String selectedSize = (String) windowSizeComboBox.getSelectedItem();
             if (selectedSize != null) {
@@ -61,7 +66,21 @@ public class UiProperties {
                 }
             }
         });
+
+        // Вызов обработчика событий для установки значений по умолчанию
+        windowSizeComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(windowSizeComboBox);
+
+        JCheckBox audioCheckBox = new JCheckBox("");
+        audioCheckBox.setSelected(false);
+        audioCheckBox.addActionListener(e -> {
+            if (audioCheckBox.isSelected() && !isPlaying) {
+                startAudioPlayer();
+            } else if (!audioCheckBox.isSelected() && isPlaying) {
+                stopAudioPlayer();
+            }
+        });
+        inputPanel.add(audioCheckBox);
 
         // Загрузка данных из properties файла
         loadProperties();
@@ -76,7 +95,7 @@ public class UiProperties {
 
         // Создание таблицы
         JTable table = new JTable(model);
-        table.setGridColor(Color.BLACK); // Установка цвета границ
+        table.setGridColor(Color.BLACK); // Установка ��вета границ
         table.setShowGrid(true); // Включение отображения границ
 
         // Добавление поведения для замены текста
@@ -103,6 +122,7 @@ public class UiProperties {
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+
         // Создание рендерера для первого столбца с измененным шрифтом
         DefaultTableCellRenderer firstColumnRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -153,6 +173,7 @@ public class UiProperties {
                     }
                 });
             }
+
             @Override
             public void editingCanceled(ChangeEvent e) {
             }
@@ -191,6 +212,27 @@ public class UiProperties {
 
         // Отображение окна
         frame.setVisible(true);
+    }
+
+    private void startAudioPlayer() {
+        player = new AudioPlayer(FilePathConfig.getAudioPath(), true);
+        audioThread = new Thread(player);
+        audioThread.start();
+        isPlaying = true;
+    }
+
+    private void stopAudioPlayer() {
+        if (player != null) {
+            player.stop();
+            try {
+                audioThread.join();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            player = null;
+            audioThread = null;
+            isPlaying = false;
+        }
     }
 
     public static int getHeightField() {
@@ -241,7 +283,7 @@ public class UiProperties {
         }
         try (FileOutputStream fos = new FileOutputStream(pathPropertiesFile.toFile())) {
             properties.store(fos, "Entity properties");
-            System.out.println("Файл "  + FilePathConfig.getPropertiesPath() + " успешно создан!");
+            System.out.println("Файл " + FilePathConfig.getPropertiesPath() + " успешно создан!");
             //JOptionPane.showMessageDialog(null, "Properties saved successfully!");
         } catch (IOException e) {
             e.printStackTrace();
