@@ -6,20 +6,13 @@ import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
 
 import java.util.List;
 
-public class Eating  implements Runnable {
+public class Eating  implements Action {
 
-    private final MapManager mapManager;
-    private final int cellX;
-    private final int cellY;
-
-    public Eating(MapManager mapManager, int cellX, int cellY) {
-        this.mapManager = mapManager;
-        this.cellX = cellX;
-        this.cellY = cellY;
-    }
 
     @Override
-    public void run() {
+    public void execute(MapManager mapManager, Entity entity) {
+        int cellX = mapManager.getCellX(entity);
+        int cellY = mapManager.getCellY(entity);
         List<Entity> animals = mapManager.getAnimalsInCell(cellX, cellY);
         for (Entity animal : animals) {
             Entity bestAnimal = EntityProperties.getBestAnimalTable(animal, animals);

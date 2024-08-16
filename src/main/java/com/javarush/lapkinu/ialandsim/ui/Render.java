@@ -43,8 +43,8 @@ public class Render extends JPanel {
             double currentY = entity.getCurrentY();
             double endX = entity.getEndX();
             double endY = entity.getEndY();
-            double deltaX = (endX - currentX) * 0.01;
-            double deltaY = (endY - currentY) * 0.01;
+            double deltaX = (endX - currentX) * 0.08;
+            double deltaY = (endY - currentY) * 0.08;
             entity.setCurrentX(currentX + deltaX);
             entity.setCurrentY(currentY + deltaY);
         }

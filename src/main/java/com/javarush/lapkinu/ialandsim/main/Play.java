@@ -1,5 +1,6 @@
 package com.javarush.lapkinu.ialandsim.main;
 
+import com.javarush.lapkinu.ialandsim.action.Action;
 import com.javarush.lapkinu.ialandsim.action.Eating;
 import com.javarush.lapkinu.ialandsim.action.Moving;
 import com.javarush.lapkinu.ialandsim.action.AudioPlayer;
@@ -34,16 +35,16 @@ public class Play {
         RandomActions randomActions = new RandomActions(mapManager.getWidth(), mapManager.getHeight());
         JsonFileCreator.jsonCreated(jsonFilePath, propertiesFilePath);
         List<Entity> listEntity = EntityFactory.createAnimals(jsonFilePath, propertiesFilePath);
+
         // перемешиваем список сущностей
         Collections.shuffle(listEntity);
+
         for (Entity entity : listEntity) {
             int x = randomActions.randomPositionX();
             int y = randomActions.randomPositionY();
             mapManager.addAnimalToCell(entity, x, y);
-            entity.setStartX(x);
-            entity.setStartY(y);
-            entity.setEndX(x);
-            entity.setEndY(y);
+            entity.setStartX(x); entity.setStartY(y);
+            entity.setEndX(x); entity.setEndY(y);
         }
         mapManager.displayGrid();
         System.out.println("______________ ^ инициализация сущностей на карте ^ ____________________\n");
@@ -60,37 +61,18 @@ public class Play {
         audioThread.start();*/
 
 
-        ExecutorService boardExecutor = Executors.newFixedThreadPool(20);
+        ExecutorService executor = Executors.newFixedThreadPool(20);
+        List<com.javarush.lapkinu.ialandsim.action.Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
+        Random random = new Random();
 
         new Timer(1000, e -> {
             if (mapManager.getAnimalCount() > 0) {
                 List<Entity> animalList = mapManager.getAnimalList();
                 Collections.shuffle(animalList);
                 for (Entity entity : animalList) {
-                    Random random = new Random();
-                    int randomInt = random.nextInt(1, 4);
-                    if (randomInt == 1) {
-                        // переместить сущность
-                        boardExecutor.submit(new Moving(mapManager, entity));
-                    } else if (randomInt == 2) {
-                        // попытка съесть другую сущность
-                        int cellX = mapManager.getCellX(entity);
-                        int cellY = mapManager.getCellY(entity);
-                        if (cellX != -1 && cellY != -1) {
-                            boardExecutor.submit(new Eating(mapManager, cellX, cellY));
-                        }
-                    } else if (randomInt == 3) {
-                        // создать новую сущность
-                        if (Math.random() < 0.5) {
-                            int cellX = mapManager.getCellX(entity);
-                            int cellY = mapManager.getCellY(entity);
-                            if (cellX != -1 && cellY != -1) {
-                                boardExecutor.submit(new Reproduction(mapManager, cellX, cellY));
-                            }
-                        }
-                    }
+                    Action action = actions.get(random.nextInt(actions.size()));
+                    executor.submit(() -> action.execute(mapManager, entity));
                 }
-                //mapManager.displayGrid();
                 render.animateEntities();
                 render.repaint();
             } else {
@@ -101,7 +83,7 @@ public class Play {
                     e.getSource();
                 }*/
                 ((Timer) e.getSource()).stop();
-                boardExecutor.shutdown();
+                executor.shutdown();
             }
         }).start();
     }

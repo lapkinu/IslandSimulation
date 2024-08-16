@@ -1,39 +1,28 @@
 package com.javarush.lapkinu.ialandsim.action;
 
-import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.factory.EntityFactory;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
 
 import java.util.List;
 
-public class Reproduction implements Runnable {
-
-    private final MapManager mapManager;
-    private final int cellX;
-    private final int cellY;
-
-    public Reproduction(MapManager mapManager, int cellX, int cellY) {
-        this.mapManager = mapManager;
-        this.cellX = cellX;
-        this.cellY = cellY;
-    }
+public class Reproduction implements Action {
 
     @Override
-    public void run() {
+    public void execute(MapManager mapManager, Entity entity) {
+        int cellX = mapManager.getCellX(entity);
+        int cellY = mapManager.getCellY(entity);
         List<Entity> animals = mapManager.getAnimalsInCell(cellX, cellY);
-        if (animals.size() >= 2 && !isCellOverpopulated(cellX, cellY)) {
+        if (animals.size() >= 2 && !isCellOverpopulated(mapManager, cellX, cellY)) {
             for (Entity animal : animals) {
                 if (isContainsEntity(animals, animal)) {
                     Entity newEntity = EntityFactory.createEntity(animal);
-                    int x = mapManager.getCellX(animal);
-                    int y = mapManager.getCellY(animal);
                     if (cellX != -1 && cellY != -1) {
-                        mapManager.addAnimalToCell(newEntity, x, y);
-                        newEntity.setStartX(x);
-                        newEntity.setStartY(y);
-                        newEntity.setEndX(x);
-                        newEntity.setEndY(y);
+                        mapManager.addAnimalToCell(newEntity, cellX, cellY);
+                        newEntity.setStartX(cellX);
+                        newEntity.setStartY(cellY);
+                        newEntity.setEndX(cellX);
+                        newEntity.setEndY(cellY);
                         System.out.println("Родился новый житель: " + newEntity.getClass().getSimpleName() + " ID " + newEntity.getID());
                     }
                 }
@@ -51,11 +40,7 @@ public class Reproduction implements Runnable {
         return false;
     }
 
-
-    // метод: если в клетке больше 30 то вернуть false
-    public boolean isCellOverpopulated(int cellX, int cellY) {
+    public boolean isCellOverpopulated(MapManager mapManager, int cellX, int cellY) {
         return mapManager.getAnimalsInCell(cellX, cellY).size() > 2;
     }
-
-
 }
