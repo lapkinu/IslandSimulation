@@ -34,7 +34,7 @@ public class UiProperties {
     public UiProperties() {
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 500);
+        frame.setSize(800, 520);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
@@ -44,17 +44,18 @@ public class UiProperties {
         JLabel widthLabel = new JLabel("Ширина:");
         widthField = new JTextField(5);
 
-        heightField.setText("10");
-        widthField.setText("10");
+        heightField.setText("30");
+        widthField.setText("25");
 
         inputPanel.add(heightLabel);
         inputPanel.add(heightField);
         inputPanel.add(widthLabel);
         inputPanel.add(widthField);
 
-        String[] windowSizes = {"win size", "640x480", "720x480", "720x576",
-                "800x600", "1024x768", "1280x720", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
+        String[] windowSizes = { "640x480", "720x480",
+                "800x600", "1024x768", "1280x720", "1560x900", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
         JComboBox<String> windowSizeComboBox = new JComboBox<>(windowSizes);
+        windowSizeComboBox.setSelectedItem("1560x900"); // Set default value
         windowSizeComboBox.addActionListener(e -> {
             String selectedSize = (String) windowSizeComboBox.getSelectedItem();
             if (selectedSize != null) {
@@ -65,9 +66,12 @@ public class UiProperties {
                 }
             }
         });
+
+        // Вызов обработчика событий для установки значений по умолчанию
+        windowSizeComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(windowSizeComboBox);
 
-        JCheckBox audioCheckBox = new JCheckBox("аудио");
+        JCheckBox audioCheckBox = new JCheckBox("");
         audioCheckBox.setSelected(false);
         audioCheckBox.addActionListener(e -> {
             if (audioCheckBox.isSelected() && !isPlaying) {
@@ -118,6 +122,7 @@ public class UiProperties {
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+
         // Создание рендерера для первого столбца с измененным шрифтом
         DefaultTableCellRenderer firstColumnRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -285,4 +290,5 @@ public class UiProperties {
             JOptionPane.showMessageDialog(null, "Error saving properties: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }

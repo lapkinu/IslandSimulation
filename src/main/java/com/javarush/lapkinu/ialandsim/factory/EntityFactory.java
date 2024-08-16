@@ -4,6 +4,7 @@ import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
+import com.javarush.lapkinu.ialandsim.ui.UiProperties;
 
 import javax.swing.*;
 import java.io.File;
@@ -55,8 +56,8 @@ public class EntityFactory {
                     entities.add(entity);
                 }
             }
-            JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
-                    " и бегать по полю!\n\n" + "                                         вы точно этого хотите ?!!!" );
+            /*JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
+                    " и бегать по полю!\n\n" + "                                           вы точно этого хотите ?!!!" );*/
         } catch (IOException | ReflectiveOperationException e) {
             e.printStackTrace();
         }

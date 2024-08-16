@@ -10,6 +10,7 @@ public class AudioPlayer implements Runnable {
 
     private final String filePath;
     public boolean loop;
+    private Player player;
 
     public AudioPlayer(String filePath, boolean loop) {
         this.filePath = filePath;
@@ -20,15 +21,18 @@ public class AudioPlayer implements Runnable {
     public void run() {
         do {
             try (FileInputStream fis = new FileInputStream(filePath)) {
-                Player player = new Player(fis);
+                player = new Player(fis);
                 player.play();
             } catch (JavaLayerException | IOException e) {
                 e.printStackTrace();
             }
-        } while (loop);
+        } while (loop && !Thread.currentThread().isInterrupted());
     }
 
     public void stop() {
         loop = false;
+        if (player != null) {
+            player.close(); // Это немедленно остановит воспроизведение
+        }
     }
 }
