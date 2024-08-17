@@ -81,7 +81,7 @@ public class UiProperties {
         String[] smoothSimulationVol = { "1", "2",
                 "3", "4", "5", "6", "7", "8", "9", "10"};
         JComboBox<String> smoothSimulationComboBox = new JComboBox<>(smoothSimulationVol);
-        smoothSimulationComboBox.setSelectedItem("3"); // Set default value
+        smoothSimulationComboBox.setSelectedItem("7"); // Set default value
         smoothSimulationComboBox.addActionListener(e -> {
             String selectedVol = (String) smoothSimulationComboBox.getSelectedItem();
             if (selectedVol != null) {

@@ -45,8 +45,8 @@ public class Render extends JPanel {
             double currentY = entity.getCurrentY();
             double endX = entity.getEndX();
             double endY = entity.getEndY();
-            double deltaX = (endX - currentX) * (smoothSimulation * 0.01);
-            double deltaY = (endY - currentY) * (smoothSimulation * 0.01);
+            double deltaX = (endX - currentX) * (0.1 / smoothSimulation);
+            double deltaY = (endY - currentY) * (0.1 / smoothSimulation);
             entity.setCurrentX(currentX + deltaX);
             entity.setCurrentY(currentY + deltaY);
         }
