@@ -11,11 +11,13 @@ public class Render extends JPanel {
     private final MapManager mapManager;
     private final int cellWidth;
     private final int cellHeight;
+    private final double smoothSimulation;
 
-    public Render(MapManager mapManager, int frameWidth, int frameHeight) {
+    public Render(MapManager mapManager, int frameWidth, int frameHeight, double smoothSimulation) {
         this.mapManager = mapManager;
         this.cellWidth = frameWidth / mapManager.getWidth();
         this.cellHeight = frameHeight / mapManager.getHeight();
+        this.smoothSimulation = smoothSimulation;
         backgroundImage = new ImageIcon("src/main/resources/img/field/Field.png").getImage();
 
         // Таймер для анимации объектов
@@ -43,8 +45,8 @@ public class Render extends JPanel {
             double currentY = entity.getCurrentY();
             double endX = entity.getEndX();
             double endY = entity.getEndY();
-            double deltaX = (endX - currentX) * 0.01;
-            double deltaY = (endY - currentY) * 0.01;
+            double deltaX = (endX - currentX) * (smoothSimulation * 0.01);
+            double deltaY = (endY - currentY) * (smoothSimulation * 0.01);
             entity.setCurrentX(currentX + deltaX);
             entity.setCurrentY(currentY + deltaY);
         }

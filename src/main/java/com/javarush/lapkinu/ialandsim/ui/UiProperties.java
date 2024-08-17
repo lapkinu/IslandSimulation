@@ -27,6 +27,7 @@ public class UiProperties {
     private static JTextField widthField;
     private int frameWidth;
     private int frameHeight;
+    private double smoothSimulation;
     private AudioPlayer player;
     private Thread audioThread;
     private boolean isPlaying = false;
@@ -52,6 +53,9 @@ public class UiProperties {
         inputPanel.add(widthLabel);
         inputPanel.add(widthField);
 
+
+        JLabel windowSizeLabel = new JLabel("Size:");
+        inputPanel.add(windowSizeLabel);
         String[] windowSizes = { "640x480", "720x480",
                 "800x600", "1024x768", "1280x720", "1560x900", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
         JComboBox<String> windowSizeComboBox = new JComboBox<>(windowSizes);
@@ -70,6 +74,24 @@ public class UiProperties {
         // Вызов обработчика событий для установки значений по умолчанию
         windowSizeComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(windowSizeComboBox);
+
+
+        JLabel smoothSimulationLabel = new JLabel("Smooth:");
+        inputPanel.add(smoothSimulationLabel);
+        String[] smoothSimulationVol = { "1", "2",
+                "3", "4", "5", "6", "7", "8", "9", "10"};
+        JComboBox<String> smoothSimulationComboBox = new JComboBox<>(smoothSimulationVol);
+        smoothSimulationComboBox.setSelectedItem("3"); // Set default value
+        smoothSimulationComboBox.addActionListener(e -> {
+            String selectedVol = (String) smoothSimulationComboBox.getSelectedItem();
+            if (selectedVol != null) {
+                this.smoothSimulation = Double.parseDouble(selectedVol);
+            }
+        });
+
+        // Вызов обработчика событий для установки значений по умолчанию
+        smoothSimulationComboBox.getActionListeners()[0].actionPerformed(null);
+        inputPanel.add(smoothSimulationComboBox);
 
         JCheckBox audioCheckBox = new JCheckBox("");
         audioCheckBox.setSelected(false);
@@ -194,7 +216,7 @@ public class UiProperties {
             //useHeightAndWidth();
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
-            Render render = new Render(mapManager, frameWidth, frameHeight); // 1920, 1080
+            Render render = new Render(mapManager, frameWidth, frameHeight, smoothSimulation); // 1920, 1080
             startSimulation(mapManager, render, frameWidth, frameHeight);
         });
 
