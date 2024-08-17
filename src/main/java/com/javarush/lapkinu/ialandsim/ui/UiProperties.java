@@ -35,14 +35,14 @@ public class UiProperties {
     public UiProperties() {
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 520);
+        frame.setSize(1100, 520);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
         JPanel inputPanel = new JPanel(new GridLayout(1, 4, 5, 5));
-        JLabel heightLabel = new JLabel("Высота:");
+        JLabel heightLabel = new JLabel("    heightField:");
         heightField = new JTextField(5);
-        JLabel widthLabel = new JLabel("Ширина:");
+        JLabel widthLabel = new JLabel("    widthField:");
         widthField = new JTextField(5);
 
         heightField.setText("30");
@@ -54,7 +54,7 @@ public class UiProperties {
         inputPanel.add(widthField);
 
 
-        JLabel windowSizeLabel = new JLabel("Size:");
+        JLabel windowSizeLabel = new JLabel("  Screen size:");
         inputPanel.add(windowSizeLabel);
         String[] windowSizes = { "640x480", "720x480",
                 "800x600", "1024x768", "1280x720", "1560x900", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
@@ -75,8 +75,7 @@ public class UiProperties {
         windowSizeComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(windowSizeComboBox);
 
-
-        JLabel smoothSimulationLabel = new JLabel("Smooth:");
+        JLabel smoothSimulationLabel = new JLabel("  Smooth:");
         inputPanel.add(smoothSimulationLabel);
         String[] smoothSimulationVol = { "1", "2",
                 "3", "4", "5", "6", "7", "8", "9", "10"};

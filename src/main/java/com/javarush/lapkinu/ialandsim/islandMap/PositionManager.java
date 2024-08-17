@@ -8,7 +8,7 @@ public class PositionManager {
         return (Math.random() * speed * 2) - speed;
     }
 
-    public static void updatePosition(Entity entity, int fieldWidth, int fieldHeight) {
+    /*public static void updatePosition(Entity entity, int fieldWidth, int fieldHeight) {
         int newX, newY;
         do {
             newX = (int) (entity.getStartX() + getRandomOffset(entity.getSpeed()));
@@ -16,12 +16,10 @@ public class PositionManager {
         } while (newX < 0 || newX >= fieldWidth || newY < 0 || newY >= fieldHeight); // Проверка границ поля
         entity.setEndX(newX);
         entity.setEndY(newY);
-    }
+    }*/
 
 
-
-
-    /* public static void updatePosition(Entity entity, int fieldWidth, int fieldHeight) {
+     public static void updatePosition(Entity entity, int fieldWidth, int fieldHeight) {
         int newX, newY;
         do {
             newX = (int) Math.round(entity.getStartX() + getRandomOffset(entity.getSpeed()));
@@ -29,7 +27,7 @@ public class PositionManager {
         } while (newX < 0 || newX >= fieldWidth || newY < 0 || newY >= fieldHeight); // Проверка границ поля
         entity.setEndX(newX);
         entity.setEndY(newY);
-    }*/
+    }
 
 
 }
