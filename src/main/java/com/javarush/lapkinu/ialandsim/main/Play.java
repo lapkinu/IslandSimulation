@@ -42,8 +42,8 @@ public class Play {
         }
         mapManager.displayGrid();
         System.out.println("______________ ^ инициализация сущностей на карте ^ ____________________\n");
-        JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
-                    " и бегать по полю!\n\n" + "                                           вы точно этого хотите ?!!!" );
+       /* JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
+                    " и бегать по полю!\n\n" + "                                           вы точно этого хотите ?!!!" );*/
 
         JFrame frame = new JFrame("Island Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +64,6 @@ public class Play {
                         Action action = actions.get(random.nextInt(actions.size()));
                         executor.submit(() -> action.execute(mapManager, entity));
                     }
-                    //  найти все сущности Plants и применить метод eat() к ним
                     List<Entity> plantList = mapManager.getAnimalList();
                     for (Entity entity : plantList) {
                         if (entity.getClass().getSimpleName().equals("Plants")) {
@@ -79,7 +78,6 @@ public class Play {
                 }
             }).start();
         });
-
         timerThread.start();
     }
 

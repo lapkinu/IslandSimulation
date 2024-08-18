@@ -230,7 +230,6 @@ public class UiProperties {
         // Добавление кнопки сохранения и запуска симуляции
         JButton saveButton = new JButton("*** \uD83D\uDC07 START SIMULATION \uD83D\uDC07 ***");
         saveButton.addActionListener(e -> {
-            //useHeightAndWidth();
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
             Render render = new Render(mapManager, frameWidth, frameHeight, smoothSimulation); // 1920, 1080
