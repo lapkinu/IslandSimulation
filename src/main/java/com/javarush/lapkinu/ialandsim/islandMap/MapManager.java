@@ -4,6 +4,7 @@ import com.javarush.lapkinu.ialandsim.entity.Entity;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class MapManager {
     private final Cell[][] cells;
@@ -128,6 +129,11 @@ public class MapManager {
             }
         }
         return list;
+    }
+
+    public Map<String, Long> getEntityCounts() {
+        return getAnimalList().stream()
+                .collect(Collectors.groupingBy(entity -> entity.getClass().getSimpleName(), Collectors.counting()));
     }
 
 }

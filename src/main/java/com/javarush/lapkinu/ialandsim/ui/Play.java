@@ -12,14 +12,18 @@ import com.javarush.lapkinu.ialandsim.jsonFileCreator.JsonFileCreator;
 import com.javarush.lapkinu.ialandsim.random.RandomActions;
 
 import javax.swing.*;
+import java.awt.*;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Play {
+
+    private JLabel statisticLabel;
 
     public void startSimulation(MapManager mapManager, Render render, int width, int height, int delay) {
         Path propertiesFilePath = FilePathConfig.getPropertiesPath();
@@ -41,9 +45,20 @@ public class Play {
         JFrame frame = new JFrame("Island Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
-        frame.add(render);
+        frame.setLayout(new BorderLayout());
+        frame.add(render, BorderLayout.CENTER);
+
+        // Создание панели для статистики
+        JPanel statsPanel = new JPanel();
+        statisticLabel = new JLabel("");
+        statsPanel.add(statisticLabel);
+        // становить шрифт для статистики
+        statisticLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        frame.add(statsPanel, BorderLayout.SOUTH);
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
 
         Random random = new Random();
         ExecutorService executor = Executors.newCachedThreadPool();
@@ -64,11 +79,21 @@ public class Play {
                 }
                 render.animateEntities();
                 render.repaint();
+                updateStats(mapManager);
             } else {
                 ((Timer) e.getSource()).stop();
                 executor.shutdown();
             }
         }).start();
+    }
+
+    private void updateStats(MapManager mapManager) {
+        Map<String, Long> entityCounts = mapManager.getEntityCounts();
+        StringBuilder stats = new StringBuilder();
+        for (Map.Entry<String, Long> entry : entityCounts.entrySet()) {
+            stats.append("| ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" ");
+        }
+        statisticLabel.setText(stats.toString());
     }
 
 }
