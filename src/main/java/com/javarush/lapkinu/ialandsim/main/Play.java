@@ -64,6 +64,13 @@ public class Play {
                         Action action = actions.get(random.nextInt(actions.size()));
                         executor.submit(() -> action.execute(mapManager, entity));
                     }
+                    //  найти все сущности Plants и применить метод eat() к ним
+                    List<Entity> plantList = mapManager.getAnimalList();
+                    for (Entity entity : plantList) {
+                        if (entity.getClass().getSimpleName().equals("Plants")) {
+                            entity.eat();
+                        }
+                    }
                     render.animateEntities();
                     render.repaint();
                 } else {
