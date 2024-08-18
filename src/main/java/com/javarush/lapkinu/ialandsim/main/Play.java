@@ -54,7 +54,7 @@ public class Play {
 
         Thread timerThread = new Thread(() -> {
             Random random = new Random();
-            ExecutorService executor = Executors.newFixedThreadPool(8);
+            ExecutorService executor = Executors.newFixedThreadPool(3);
             List<Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
             new Timer(delay, e -> {
                 if (mapManager.getAnimalCount() > 0) {
