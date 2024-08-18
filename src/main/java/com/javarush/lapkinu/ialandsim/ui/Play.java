@@ -1,4 +1,4 @@
-package com.javarush.lapkinu.ialandsim.main;
+package com.javarush.lapkinu.ialandsim.ui;
 
 import com.javarush.lapkinu.ialandsim.action.Action;
 import com.javarush.lapkinu.ialandsim.action.Eating;
@@ -10,7 +10,6 @@ import com.javarush.lapkinu.ialandsim.factory.EntityFactory;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
 import com.javarush.lapkinu.ialandsim.jsonFileCreator.JsonFileCreator;
 import com.javarush.lapkinu.ialandsim.random.RandomActions;
-import com.javarush.lapkinu.ialandsim.ui.*;
 
 import javax.swing.*;
 import java.nio.file.Path;
@@ -47,7 +46,7 @@ public class Play {
         frame.setVisible(true);
 
         Random random = new Random();
-        ExecutorService executor = Executors.newFixedThreadPool(3);
+        ExecutorService executor = Executors.newCachedThreadPool();
         List<Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
         new Timer(delay, e -> {
             if (mapManager.getAnimalCount() > 0) {

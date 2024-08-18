@@ -4,9 +4,6 @@ import com.javarush.lapkinu.ialandsim.feature.AudioPlayer;
 import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
-import com.javarush.lapkinu.ialandsim.main.Play;
-
-import static com.javarush.lapkinu.ialandsim.main.Play.*;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
@@ -20,7 +17,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class UiProperties {
+public class SetProperties {
     private static final String[] COLUMN_NAMES = {"Entity", "Quantity", "Weight", "Speed"};
     private static final Properties properties = new Properties();
     private static final Path pathPropertiesFile = FilePathConfig.getPropertiesPath();
@@ -34,7 +31,7 @@ public class UiProperties {
     private Thread audioThread;
     private boolean isPlaying = false;
 
-    public UiProperties() {
+    public SetProperties() {
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1100, 530);

@@ -4,9 +4,7 @@ import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
-import com.javarush.lapkinu.ialandsim.ui.UiProperties;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
