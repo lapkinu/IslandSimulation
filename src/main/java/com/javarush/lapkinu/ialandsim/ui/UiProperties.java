@@ -4,6 +4,7 @@ import com.javarush.lapkinu.ialandsim.feature.AudioPlayer;
 import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
+import com.javarush.lapkinu.ialandsim.main.Play;
 
 import static com.javarush.lapkinu.ialandsim.main.Play.*;
 
@@ -230,11 +231,17 @@ public class UiProperties {
         // Добавление кнопки сохранения и запуска симуляции
         JButton saveButton = new JButton("*** \uD83D\uDC07 START SIMULATION \uD83D\uDC07 ***");
         saveButton.addActionListener(e -> {
+            Thread timerThread = new Thread(() -> {
+                System.out.println("Start simulation new thread" + Thread.currentThread().getName());
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
             Render render = new Render(mapManager, frameWidth, frameHeight, smoothSimulation); // 1920, 1080
-            startSimulation(mapManager, render, frameWidth, frameHeight, delay);
+            Play play = new Play();
+            play.startSimulation(mapManager, render, frameWidth, frameHeight, delay);
+            });
+            timerThread.start();
         });
+
 
         panel.add(saveButton, BorderLayout.SOUTH);
 

@@ -22,11 +22,7 @@ import java.util.concurrent.Executors;
 
 public class Play {
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(UiProperties::new);
-    }
-
-    public static void startSimulation(MapManager mapManager, Render render, int width, int height, int delay) {
+    public void startSimulation(MapManager mapManager, Render render, int width, int height, int delay) {
         Path propertiesFilePath = FilePathConfig.getPropertiesPath();
         Path jsonFilePath = FilePathConfig.getJsonPath();
         RandomActions randomActions = new RandomActions(mapManager.getWidth(), mapManager.getHeight());
@@ -42,8 +38,6 @@ public class Play {
         }
         mapManager.displayGrid();
         System.out.println("______________ ^ инициализация сущностей на карте ^ ____________________\n");
-       /* JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
-                    " и бегать по полю!\n\n" + "                                           вы точно этого хотите ?!!!" );*/
 
         JFrame frame = new JFrame("Island Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,33 +46,30 @@ public class Play {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        Thread timerThread = new Thread(() -> {
-            Random random = new Random();
-            ExecutorService executor = Executors.newFixedThreadPool(3);
-            List<Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
-            new Timer(delay, e -> {
-                if (mapManager.getAnimalCount() > 0) {
-                    List<Entity> animalList = mapManager.getAnimalList();
-                    Collections.shuffle(animalList);
-                    for (Entity entity : animalList) {
-                        Action action = actions.get(random.nextInt(actions.size()));
-                        executor.submit(() -> action.execute(mapManager, entity));
-                    }
-                    List<Entity> plantList = mapManager.getAnimalList();
-                    for (Entity entity : plantList) {
-                        if (entity.getClass().getSimpleName().equals("Plants")) {
-                            entity.eat();
-                        }
-                    }
-                    render.animateEntities();
-                    render.repaint();
-                } else {
-                    ((Timer) e.getSource()).stop();
-                    executor.shutdown();
+        Random random = new Random();
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        List<Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
+        new Timer(delay, e -> {
+            if (mapManager.getAnimalCount() > 0) {
+                List<Entity> animalList = mapManager.getAnimalList();
+                Collections.shuffle(animalList);
+                for (Entity entity : animalList) {
+                    Action action = actions.get(random.nextInt(actions.size()));
+                    executor.submit(() -> action.execute(mapManager, entity));
                 }
-            }).start();
-        });
-        timerThread.start();
+                List<Entity> plantList = mapManager.getAnimalList();
+                for (Entity entity : plantList) {
+                    if (entity.getClass().getSimpleName().equals("Plants")) {
+                        entity.eat();
+                    }
+                }
+                render.animateEntities();
+                render.repaint();
+            } else {
+                ((Timer) e.getSource()).stop();
+                executor.shutdown();
+            }
+        }).start();
     }
 
 }
