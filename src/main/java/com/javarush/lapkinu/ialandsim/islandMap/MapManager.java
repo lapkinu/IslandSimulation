@@ -38,7 +38,7 @@ public class MapManager {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             gridMap.get(cells[x][y]).add(entity);
         } else {
-            System.out.println("Неверные координаты ячейки (" + x + ", " + y + ").");
+            //System.out.println("Неверные координаты ячейки (" + x + ", " + y + ").");
         }
     }
 
@@ -47,7 +47,7 @@ public class MapManager {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return gridMap.get(cells[x][y]);
         } else {
-            System.out.println("Неверные координаты ячейки (" + x + ", " + y + ").");
+            //System.out.println("Неверные координаты ячейки (" + x + ", " + y + ").");
             return Collections.emptyList();
         }
     }

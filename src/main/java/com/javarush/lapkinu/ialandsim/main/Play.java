@@ -26,7 +26,7 @@ public class Play {
         SwingUtilities.invokeLater(UiProperties::new);
     }
 
-    public static void startSimulation(MapManager mapManager, Render render, int width, int height) {
+    public static void startSimulation(MapManager mapManager, Render render, int width, int height, int delay) {
         Path propertiesFilePath = FilePathConfig.getPropertiesPath();
         Path jsonFilePath = FilePathConfig.getJsonPath();
         RandomActions randomActions = new RandomActions(mapManager.getWidth(), mapManager.getHeight());
@@ -54,9 +54,9 @@ public class Play {
 
         Thread timerThread = new Thread(() -> {
             Random random = new Random();
-            ExecutorService executor = Executors.newFixedThreadPool(5);
+            ExecutorService executor = Executors.newFixedThreadPool(8);
             List<Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
-            new Timer(1000, e -> {
+            new Timer(delay, e -> {
                 if (mapManager.getAnimalCount() > 0) {
                     List<Entity> animalList = mapManager.getAnimalList();
                     Collections.shuffle(animalList);

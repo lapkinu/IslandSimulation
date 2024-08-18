@@ -13,17 +13,30 @@ public class Eating  implements Action {
     public void execute(MapManager mapManager, Entity entity) {
         int cellX = mapManager.getCellX(entity);
         int cellY = mapManager.getCellY(entity);
-        List<Entity> animals = mapManager.getAnimalsInCell(cellX, cellY);
-        for (Entity animal : animals) {
-            Entity bestAnimal = EntityProperties.getBestAnimalTable(animal, animals);
-            if (bestAnimal != null
-                    && EntityProperties.valueTable(EntityProperties.formEntity(animal),
-                    EntityProperties.formEntity(bestAnimal)) > 0
-                    && animal.getAlive()) {
-                mapManager.removeAnimal(bestAnimal);
-                animal.eat();
-                System.out.println(animal.getClass().getSimpleName() + " ID " + animal.getID()
-                        + " съел " + bestAnimal.getClass().getSimpleName() + " ID " + bestAnimal.getID());
+        List<Entity> ListEntity = mapManager.getAnimalsInCell(cellX, cellY);
+        for (Entity hunterEntity : ListEntity) {
+            Entity bestEntity = EntityProperties.getBestAnimalTable(hunterEntity, ListEntity);
+            if (bestEntity != null
+                    && EntityProperties.valueTable(EntityProperties.formEntity(hunterEntity),
+                    EntityProperties.formEntity(bestEntity)) > 0
+                    && hunterEntity.getAlive()) {
+
+
+                if (EntityProperties.formEntity(bestEntity) == EntityProperties.PLANTS) {
+                    bestEntity.hunger();
+                    hunterEntity.eat();
+                } else {
+                    //съест с вероятностью EntityProperties.valueTable
+                    if (Math.random() < EntityProperties.valueTable(EntityProperties.formEntity(hunterEntity),
+                            EntityProperties.formEntity(bestEntity))) {
+                        mapManager.removeAnimal(bestEntity);
+                        hunterEntity.eat();
+                    }
+                }
+
+
+                System.out.println(hunterEntity.getClass().getSimpleName() + " ID " + hunterEntity.getID()
+                        + " съел " + bestEntity.getClass().getSimpleName() + " ID " + bestEntity.getID());
             }
         }
     }

@@ -81,14 +81,17 @@ public abstract class Herbivore implements Entity {
     }
 
     @Override
-    public void hunger() {
-        setWeight(getWeight() - (getWeightMax() * 0.01));
+    public void eat() {
+        if (getWeight() < getWeightMax()) {
+            setWeight(getWeight() + (getWeightMax() * 0.1));
+        }
     }
 
     @Override
-    public void eat() {
-        setWeight(getWeight() + 5);
+    public void hunger() {
+        setWeight(getWeight() - (getWeightMax() * 0.02));
     }
+
 
     @Override
     public void move() {

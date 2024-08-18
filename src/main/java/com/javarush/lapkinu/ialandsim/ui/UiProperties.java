@@ -1,6 +1,6 @@
 package com.javarush.lapkinu.ialandsim.ui;
 
-import com.javarush.lapkinu.ialandsim.action.AudioPlayer;
+import com.javarush.lapkinu.ialandsim.feature.AudioPlayer;
 import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
@@ -28,6 +28,7 @@ public class UiProperties {
     private int frameWidth;
     private int frameHeight;
     private double smoothSimulation;
+    private int delay;
     private AudioPlayer player;
     private Thread audioThread;
     private boolean isPlaying = false;
@@ -35,7 +36,7 @@ public class UiProperties {
     public UiProperties() {
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1100, 520);
+        frame.setSize(1100, 530);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
@@ -70,10 +71,11 @@ public class UiProperties {
                 }
             }
         });
-
         // Вызов обработчика событий для установки значений по умолчанию
         windowSizeComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(windowSizeComboBox);
+
+
 
         JLabel smoothSimulationLabel = new JLabel("  Smooth:");
         inputPanel.add(smoothSimulationLabel);
@@ -87,12 +89,28 @@ public class UiProperties {
                 this.smoothSimulation = Double.parseDouble(selectedVol);
             }
         });
-
         // Вызов обработчика событий для установки значений по умолчанию
         smoothSimulationComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(smoothSimulationComboBox);
 
-        JCheckBox audioCheckBox = new JCheckBox("");
+
+        JLabel delayLabel = new JLabel("  Delay ms:");
+        inputPanel.add(delayLabel);
+        String[] daleyVol = {"100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"};
+        JComboBox<String> delayComboBox = new JComboBox<>(daleyVol);
+        delayComboBox.setSelectedItem("1000"); // Set default value
+        delayComboBox.addActionListener(e -> {
+            String selectedVol = (String) delayComboBox.getSelectedItem();
+            if (selectedVol != null) {
+                this.delay = Integer.parseInt(selectedVol);
+            }
+        });
+        // Вызов обработчика событий для установки значений по умолчанию
+        delayComboBox.getActionListeners()[0].actionPerformed(null);
+        inputPanel.add(delayComboBox);
+
+
+        JCheckBox audioCheckBox = new JCheckBox("  Feature");
         audioCheckBox.setSelected(false);
         audioCheckBox.addActionListener(e -> {
             if (audioCheckBox.isSelected() && !isPlaying) {
@@ -216,7 +234,7 @@ public class UiProperties {
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
             Render render = new Render(mapManager, frameWidth, frameHeight, smoothSimulation); // 1920, 1080
-            startSimulation(mapManager, render, frameWidth, frameHeight);
+            startSimulation(mapManager, render, frameWidth, frameHeight, delay);
         });
 
         panel.add(saveButton, BorderLayout.SOUTH);
@@ -263,6 +281,7 @@ public class UiProperties {
     public static int getWidthField() {
         return Integer.parseInt(widthField.getText());
     }
+
 
     // Метод для загрузки данных из properties файла
     private static void loadProperties() {

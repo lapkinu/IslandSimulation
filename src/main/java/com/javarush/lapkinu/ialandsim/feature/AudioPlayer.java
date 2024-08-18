@@ -1,4 +1,4 @@
-package com.javarush.lapkinu.ialandsim.action;
+package com.javarush.lapkinu.ialandsim.feature;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.*;

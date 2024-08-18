@@ -134,6 +134,9 @@ public enum EntityProperties {
         return null;
     }
 
+    // метод возращает значение таблицы animalTable
+
+
 
     public static void main(String[] args) {
         Entity wolf = new Wolf(1, 1);

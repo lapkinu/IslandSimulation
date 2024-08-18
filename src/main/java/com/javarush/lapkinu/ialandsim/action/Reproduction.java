@@ -13,7 +13,7 @@ public class Reproduction implements Action {
         int cellX = mapManager.getCellX(entity);
         int cellY = mapManager.getCellY(entity);
         List<Entity> animals = mapManager.getAnimalsInCell(cellX, cellY);
-        if (animals.size() >= 2 && !isCellOverpopulated(mapManager, cellX, cellY)) {
+        if (animals.size() >= 2 && Math.random() >0.7 && !isCellOverpopulated(mapManager, cellX, cellY)) {
             for (Entity animal : animals) {
                 if (isContainsEntity(animals, animal)) {
                     Entity newEntity = EntityFactory.createEntity(animal);
@@ -23,7 +23,11 @@ public class Reproduction implements Action {
                         newEntity.setStartY(cellY);
                         newEntity.setEndX(cellX);
                         newEntity.setEndY(cellY);
-                        System.out.println("Родился новый житель: " + newEntity.getClass().getSimpleName() + " ID " + newEntity.getID());
+                        System.out.println("Родился новый житель: "
+                                + newEntity.getClass().getSimpleName()
+                                + " ID " + newEntity.getID());
+                        animal.hunger();
+
                     }
                 }
             }
