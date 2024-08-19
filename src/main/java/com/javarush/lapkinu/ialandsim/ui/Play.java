@@ -63,30 +63,28 @@ public class Play {
         Random random = new Random();
         ExecutorService executor = Executors.newFixedThreadPool(5);
         List<Action> actions = List.of(new Moving(), new Eating(), new Reproduction());
-        Thread timerThread = new Thread(() -> {
-            new Timer(delay, e -> {
-                if (mapManager.getAnimalCount() > 0) {
-                    List<Entity> animalList = mapManager.getAnimalList();
-                    Collections.shuffle(animalList);
-                    for (Entity entity : animalList) {
-                        Action action = actions.get(random.nextInt(actions.size()));
-                        executor.submit(() -> action.execute(mapManager, entity));
-                    }
-                    List<Entity> plantList = mapManager.getAnimalList();
-                    for (Entity entity : plantList) {
-                        if (entity.getClass().getSimpleName().equals("Plants")) {
-                            entity.eat();
-                        }
-                    }
-                    render.animateEntities();
-                    render.repaint();
-                    updateStats(mapManager);
-                } else {
-                    ((Timer) e.getSource()).stop();
-                    executor.shutdown();
+        Thread timerThread = new Thread(new Timer(delay, e -> {
+            if (mapManager.getAnimalCount() > 0) {
+                List<Entity> animalList = mapManager.getAnimalList();
+                Collections.shuffle(animalList);
+                for (Entity entity : animalList) {
+                    Action action = actions.get(random.nextInt(actions.size()));
+                    executor.submit(() -> action.execute(mapManager, entity));
                 }
-            }).start();
-        });
+                List<Entity> plantList = mapManager.getAnimalList();
+                for (Entity entity : plantList) {
+                    if (entity.getClass().getSimpleName().equals("Plants")) {
+                        entity.eat();
+                    }
+                }
+                render.animateEntities();
+                render.repaint();
+                updateStats(mapManager);
+            } else {
+                ((Timer) e.getSource()).stop();
+                executor.shutdown();
+            }
+        })::start);
 
         timerThread.start();
     }
