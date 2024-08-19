@@ -22,7 +22,7 @@ public class Eating  implements Action {
                     && hunterEntity.getAlive()) {
 
 
-                if (EntityProperties.formEntity(bestEntity) == EntityProperties.PLANTS) {
+                if (EntityProperties.formEntity(bestEntity) == EntityProperties.GRASS) {
                     bestEntity.hunger();
                     hunterEntity.eat();
                 } else {
