@@ -27,7 +27,6 @@ public class Reproduction implements Action {
                                 + newEntity.getClass().getSimpleName()
                                 + " ID " + newEntity.getID());
                         animal.hunger();
-
                     }
                 }
             }

@@ -70,15 +70,6 @@ public abstract class Omnivore implements Entity {
         setWeight(getWeight() - (getWeightMax() * 0.02));
     }
 
-    public void eatHerbivore() {
-        setWeight(getWeight() + 2);
-        System.out.println("Это всеядное ест растения.");
-    }
-    public void eatPredator() {
-        setWeight(getWeight() + 3);
-        System.out.println("Это всеядное ест мясо.");
-    }
-
     @Override
     public Image getImage() {
         return image;

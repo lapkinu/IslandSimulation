@@ -27,7 +27,6 @@ public abstract class Predator implements Entity {
         this.image = image;
     }
 
-
     @Override
     public int getID() {
         return id;
@@ -74,7 +73,6 @@ public abstract class Predator implements Entity {
     public void hunger() {
         setWeight(getWeight() - (getWeightMax() * 0.02));
     }
-
 
     @Override
     public Image getImage() {

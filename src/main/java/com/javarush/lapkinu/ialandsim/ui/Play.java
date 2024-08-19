@@ -48,17 +48,16 @@ public class Play {
         frame.setLayout(new BorderLayout());
         frame.add(render, BorderLayout.CENTER);
 
-        // Создание панели для статистики
+        // панель для статистики
         JPanel statsPanel = new JPanel();
         statisticLabel = new JLabel("");
         statsPanel.add(statisticLabel);
-        // становить шрифт для статистики
+
+        // шрифт для статистики
         statisticLabel.setFont(new Font("Arial", Font.BOLD, 16));
         frame.add(statsPanel, BorderLayout.SOUTH);
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
 
         Random random = new Random();
         ExecutorService executor = Executors.newFixedThreadPool(5);
@@ -88,6 +87,7 @@ public class Play {
         timerThread.start();
     }
 
+    //обновление статистики
     private void updateStats(MapManager mapManager) {
         Map<String, Long> entityCounts = mapManager.getEntityCounts();
         StringBuilder stats = new StringBuilder();

@@ -43,10 +43,8 @@ public class SetProperties {
         heightField = new JTextField(5);
         JLabel widthLabel = new JLabel("    widthField:");
         widthField = new JTextField(5);
-
         heightField.setText("30");
         widthField.setText("25");
-
         inputPanel.add(heightLabel);
         inputPanel.add(heightField);
         inputPanel.add(widthLabel);
@@ -58,7 +56,7 @@ public class SetProperties {
         String[] windowSizes = { "640x480", "720x480",
                 "800x600", "1024x768", "1280x720", "1560x900", "1920x1080", "2560x1440", "2560x1600", "3840x2160"};
         JComboBox<String> windowSizeComboBox = new JComboBox<>(windowSizes);
-        windowSizeComboBox.setSelectedItem("1560x900"); // Set default value
+        windowSizeComboBox.setSelectedItem("1560x900"); // Значение по умолчанию
         windowSizeComboBox.addActionListener(e -> {
             String selectedSize = (String) windowSizeComboBox.getSelectedItem();
             if (selectedSize != null) {
@@ -78,7 +76,7 @@ public class SetProperties {
         String[] smoothSimulationVol = { "1", "2",
                 "3", "4", "5", "6", "7", "8", "9", "10"};
         JComboBox<String> smoothSimulationComboBox = new JComboBox<>(smoothSimulationVol);
-        smoothSimulationComboBox.setSelectedItem("3"); // Set default value
+        smoothSimulationComboBox.setSelectedItem("3"); // Значение по умолчанию
         smoothSimulationComboBox.addActionListener(e -> {
             String selectedVol = (String) smoothSimulationComboBox.getSelectedItem();
             if (selectedVol != null) {
@@ -94,7 +92,7 @@ public class SetProperties {
         inputPanel.add(delayLabel);
         String[] daleyVol = {"100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"};
         JComboBox<String> delayComboBox = new JComboBox<>(daleyVol);
-        delayComboBox.setSelectedItem("1000"); // Set default value
+        delayComboBox.setSelectedItem("1000"); // Значение по умолчанию
         delayComboBox.addActionListener(e -> {
             String selectedVol = (String) delayComboBox.getSelectedItem();
             if (selectedVol != null) {
@@ -122,6 +120,7 @@ public class SetProperties {
 
         // Создание модели таблицы
         DefaultTableModel model = new DefaultTableModel(getDataFromProperties(), COLUMN_NAMES) {
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column != 0; // Первый столбец не редактируемый
@@ -130,7 +129,7 @@ public class SetProperties {
 
         // Создание таблицы
         JTable table = new JTable(model);
-        table.setGridColor(Color.BLACK); // Установка ��вета границ
+        table.setGridColor(Color.BLACK); // Установка цвета границ
         table.setShowGrid(true); // Включение отображения границ
 
         // Добавление поведения для замены текста
@@ -236,8 +235,6 @@ public class SetProperties {
             });
             thread.start();
         });
-
-
         panel.add(saveButton, BorderLayout.SOUTH);
 
         // Добавление панели с текстовыми полями в верхнюю часть окна
@@ -254,27 +251,6 @@ public class SetProperties {
         frame.setVisible(true);
     }
 
-    private void startAudioPlayer() {
-        player = new AudioPlayer(FilePathConfig.getAudioPath(), true);
-        audioThread = new Thread(player);
-        audioThread.start();
-        isPlaying = true;
-    }
-
-    private void stopAudioPlayer() {
-        if (player != null) {
-            player.stop();
-            try {
-                audioThread.join();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            player = null;
-            audioThread = null;
-            isPlaying = false;
-        }
-    }
-
     public static int getHeightField() {
         return Integer.parseInt(heightField.getText());
     }
@@ -282,7 +258,6 @@ public class SetProperties {
     public static int getWidthField() {
         return Integer.parseInt(widthField.getText());
     }
-
 
     // Метод для загрузки данных из properties файла
     private static void loadProperties() {
@@ -325,10 +300,30 @@ public class SetProperties {
         try (FileOutputStream fos = new FileOutputStream(pathPropertiesFile.toFile())) {
             properties.store(fos, "Entity properties");
             System.out.println("Файл " + FilePathConfig.getPropertiesPath() + " успешно создан!");
-            //JOptionPane.showMessageDialog(null, "Properties saved successfully!");
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error saving properties: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void startAudioPlayer() {
+        player = new AudioPlayer(FilePathConfig.getAudioPath(), true);
+        audioThread = new Thread(player);
+        audioThread.start();
+        isPlaying = true;
+    }
+
+    private void stopAudioPlayer() {
+        if (player != null) {
+            player.stop();
+            try {
+                audioThread.join();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            player = null;
+            audioThread = null;
+            isPlaying = false;
         }
     }
 

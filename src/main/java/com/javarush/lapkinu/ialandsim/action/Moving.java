@@ -3,9 +3,7 @@ package com.javarush.lapkinu.ialandsim.action;
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
 
-
 public  class Moving implements Action {
-
 
     @Override
     public void execute(MapManager mapManager, Entity entity) {
