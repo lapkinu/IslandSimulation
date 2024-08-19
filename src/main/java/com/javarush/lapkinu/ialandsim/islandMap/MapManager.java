@@ -25,7 +25,6 @@ public class MapManager {
         }
     }
 
-
     public int getHeight() {
         return height;
     }
@@ -74,7 +73,7 @@ public class MapManager {
         return cell != null ? cell.getY() : -1;
     }
 
-    // метод для удаления животного с карты
+    // метод для удаления животного
     public synchronized void  removeAnimal(Entity entity) {
         Cell cell = getCell(entity);
         if (cell != null) {

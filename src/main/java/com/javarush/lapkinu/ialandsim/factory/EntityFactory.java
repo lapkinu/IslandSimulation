@@ -33,14 +33,11 @@ public class EntityFactory {
             JsonNode rootNode = mapper.readTree(new File(jsonFifePath.toString()));
             JsonNode classesArray = rootNode.get("classes");
             for (JsonNode classNode : classesArray) {
-
                 String className = classNode.get("name").asText();
                 int count = classNode.get("count").asInt();
-
                 // Получение параметров конструктора из файла свойств
                 double weight = Double.parseDouble(properties.getProperty(className + ".weight"));
                 int speed = Integer.parseInt(properties.getProperty(className + ".speed"));
-
                 // Получение полного имени класса из словаря
                 String fullClassName = mapClassInfo.get(className);
                 if (fullClassName == null) {
@@ -54,8 +51,6 @@ public class EntityFactory {
                     entities.add(entity);
                 }
             }
-            /*JOptionPane.showMessageDialog(null, "\n\nВсе сущности созданны и готовы есть друг друга, размножатьстя" +
-                    " и бегать по полю!\n\n" + "                                           вы точно этого хотите ?!!!" );*/
         } catch (IOException | ReflectiveOperationException e) {
             e.printStackTrace();
         }

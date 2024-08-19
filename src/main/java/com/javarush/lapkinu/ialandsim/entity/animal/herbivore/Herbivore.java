@@ -74,7 +74,6 @@ public abstract class Herbivore implements Entity {
         setWeight(getWeight() - (getWeightMax() * 0.02));
     }
 
-
     @Override
     public Image getImage() {
         return image;

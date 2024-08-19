@@ -1,10 +1,6 @@
 package com.javarush.lapkinu.ialandsim.animalTable;
 
 import com.javarush.lapkinu.ialandsim.entity.Entity;
-import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Goat;
-import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Rabbit;
-import com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear;
-import com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +51,7 @@ public enum EntityProperties {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 100},           // CATERPILLAR
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}              // PLANTS
     };
-    Image image;
+    final Image image;
 
     EntityProperties(String name, int id, int count, double weight, int speed, String path, String icon) {
         this.name = name;
@@ -131,21 +127,6 @@ public enum EntityProperties {
             }
         }
         return null;
-    }
-
-    // метод возращает значение таблицы animalTable
-
-
-
-    public static void main(String[] args) {
-        Entity wolf = new Wolf(1, 1);
-        Entity bear = new Bear(1, 1);
-        Entity goat = new Goat(1, 1);
-        Entity rabbit = new Rabbit(1, 1);
-        System.out.println(WOLF.getValueName());
-        System.out.println(valueTable(WOLF, RABBIT));
-        System.out.println(EntityProperties.values().length);
-        System.out.println();
     }
 
 }

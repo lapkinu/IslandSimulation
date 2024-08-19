@@ -7,7 +7,7 @@ public class FilePathConfig {
 
     private static final Path DEFAULT_JSON_FILE_NAME = Paths.get("src/main/resources/Entity.json");
     private static final Path DEFAULT_PROPERTIES_FILE_NAME = Paths.get("src/main/resources/Entity.properties");
-    private static final String AUDIO_FILE_PATH = "src/main/resources/vmz.mp3";
+    private static final String AUDIO_FILE_PATH = "src/main/resources/audio/vmz.mp3";
 
     public static Path getJsonPath() {
         return DEFAULT_JSON_FILE_NAME;
