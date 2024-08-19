@@ -228,7 +228,7 @@ public class SetProperties {
         // Добавление кнопки сохранения и запуска симуляции
         JButton saveButton = new JButton("*** \uD83D\uDC07 START SIMULATION \uD83D\uDC07 ***");
         saveButton.addActionListener(e -> {
-            Thread timerThread = new Thread(() -> {
+            Thread thread = new Thread(() -> {
                 System.out.println("Start simulation new thread" + Thread.currentThread().getName());
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
@@ -236,7 +236,7 @@ public class SetProperties {
             Play play = new Play();
             play.startSimulation(mapManager, render, frameWidth, frameHeight, delay);
             });
-            timerThread.start();
+            thread.start();
         });
 
 
