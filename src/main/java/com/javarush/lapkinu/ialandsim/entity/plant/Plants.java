@@ -1,11 +1,11 @@
-package com.javarush.lapkinu.ialandsim.entity.animal.predator;
+package com.javarush.lapkinu.ialandsim.entity.plant;
 
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.islandMap.PositionManager;
 
 import java.awt.*;
 
-public abstract class Predator implements Entity {
+public abstract class Plants implements Entity {
     private final int id;
     private double weight;
     private final double weightMax;
@@ -19,14 +19,13 @@ public abstract class Predator implements Entity {
     private double currentX;
     private double currentY;
 
-    protected Predator(int id, double weightMax, int speed, Image image) {
+    protected Plants(int id, double weightMax, int speed, Image image) {
         this.id = id;
         this.weightMax = weightMax;
         this.speed = speed;
         this.weight = weightMax;
         this.image = image;
     }
-
 
     @Override
     public int getID() {
@@ -74,7 +73,6 @@ public abstract class Predator implements Entity {
     public void hunger() {
         setWeight(getWeight() - (getWeightMax() * 0.02));
     }
-
 
     @Override
     public Image getImage() {
@@ -142,7 +140,6 @@ public abstract class Predator implements Entity {
     public void setCurrentY(double currentY) {
         this.currentY = currentY;
     }
-
 
     @Override
     public void updatePosition(int fieldWidth, int fieldHeight) {

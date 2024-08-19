@@ -21,10 +21,6 @@ public interface Entity {
 
     void eat();
 
-    void move();
-
-    void reproduce();
-
     Image getImage();
 
     double getStartX();
@@ -54,13 +50,5 @@ public interface Entity {
     void updatePosition(int fieldWidth, int fieldHeight);
 
     String print();
-
-    void setPrevX(double endX);
-
-    void setPrevY(double endY);
-
-    double getPrevX();
-
-    double getPrevY();
 
 }

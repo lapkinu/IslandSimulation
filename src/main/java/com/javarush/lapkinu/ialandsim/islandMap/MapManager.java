@@ -4,6 +4,7 @@ import com.javarush.lapkinu.ialandsim.entity.Entity;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class MapManager {
     private final Cell[][] cells;
@@ -37,8 +38,6 @@ public class MapManager {
     public synchronized void addAnimalToCell(Entity entity, int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             gridMap.get(cells[x][y]).add(entity);
-        } else {
-            //System.out.println("Неверные координаты ячейки (" + x + ", " + y + ").");
         }
     }
 
@@ -47,7 +46,6 @@ public class MapManager {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return gridMap.get(cells[x][y]);
         } else {
-            //System.out.println("Неверные координаты ячейки (" + x + ", " + y + ").");
             return Collections.emptyList();
         }
     }
@@ -128,6 +126,11 @@ public class MapManager {
             }
         }
         return list;
+    }
+
+    public Map<String, Long> getEntityCounts() {
+        return getAnimalList().stream()
+                .collect(Collectors.groupingBy(entity -> entity.getClass().getSimpleName(), Collectors.counting()));
     }
 
 }

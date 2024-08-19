@@ -5,8 +5,6 @@ import com.javarush.lapkinu.ialandsim.animalTable.EntityProperties;
 import com.javarush.lapkinu.ialandsim.config.FilePathConfig;
 import com.javarush.lapkinu.ialandsim.islandMap.MapManager;
 
-import static com.javarush.lapkinu.ialandsim.main.Play.*;
-
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
@@ -19,7 +17,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class UiProperties {
+public class SetProperties {
     private static final String[] COLUMN_NAMES = {"Entity", "Quantity", "Weight", "Speed"};
     private static final Properties properties = new Properties();
     private static final Path pathPropertiesFile = FilePathConfig.getPropertiesPath();
@@ -33,7 +31,7 @@ public class UiProperties {
     private Thread audioThread;
     private boolean isPlaying = false;
 
-    public UiProperties() {
+    public SetProperties() {
         JFrame frame = new JFrame("Config Table");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1100, 530);
@@ -75,14 +73,12 @@ public class UiProperties {
         windowSizeComboBox.getActionListeners()[0].actionPerformed(null);
         inputPanel.add(windowSizeComboBox);
 
-
-
         JLabel smoothSimulationLabel = new JLabel("  Smooth:");
         inputPanel.add(smoothSimulationLabel);
         String[] smoothSimulationVol = { "1", "2",
                 "3", "4", "5", "6", "7", "8", "9", "10"};
         JComboBox<String> smoothSimulationComboBox = new JComboBox<>(smoothSimulationVol);
-        smoothSimulationComboBox.setSelectedItem("7"); // Set default value
+        smoothSimulationComboBox.setSelectedItem("3"); // Set default value
         smoothSimulationComboBox.addActionListener(e -> {
             String selectedVol = (String) smoothSimulationComboBox.getSelectedItem();
             if (selectedVol != null) {
@@ -230,11 +226,17 @@ public class UiProperties {
         // Добавление кнопки сохранения и запуска симуляции
         JButton saveButton = new JButton("*** \uD83D\uDC07 START SIMULATION \uD83D\uDC07 ***");
         saveButton.addActionListener(e -> {
+            Thread thread = new Thread(() -> {
+                System.out.println("Start simulation new thread" + Thread.currentThread().getName());
             saveProperties(model);
             MapManager mapManager = new MapManager(getWidthField(), getHeightField());
             Render render = new Render(mapManager, frameWidth, frameHeight, smoothSimulation); // 1920, 1080
-            startSimulation(mapManager, render, frameWidth, frameHeight, delay);
+            Play play = new Play();
+            play.startSimulation(mapManager, render, frameWidth, frameHeight, delay);
+            });
+            thread.start();
         });
+
 
         panel.add(saveButton, BorderLayout.SOUTH);
 

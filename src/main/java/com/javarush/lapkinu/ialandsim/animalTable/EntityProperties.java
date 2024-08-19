@@ -2,7 +2,6 @@ package com.javarush.lapkinu.ialandsim.animalTable;
 
 import com.javarush.lapkinu.ialandsim.entity.Entity;
 import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Goat;
-import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Plants;
 import com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Rabbit;
 import com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Bear;
 import com.javarush.lapkinu.ialandsim.entity.animal.predator.Wolf;
@@ -28,7 +27,7 @@ public enum EntityProperties {
     BUFFALO("Buffalo", 0, 0, 700, 3, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Buffalo", "src/main/resources/img/icon/buffalo.png"),
     DUCK("Duck", 0, 0, 1, 4, "com.javarush.lapkinu.ialandsim.entity.animal.omnivore.Duck", "src/main/resources/img/icon/duck.png"),
     CATERPILLAR("Caterpillar", 0, 0, 0.01, 0, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Caterpillar","src/main/resources/img/icon/caterpillar.png"),
-    PLANTS("Plants", 0, 0, 1, 0, "com.javarush.lapkinu.ialandsim.entity.animal.herbivore.Plants", "src/main/resources/img/icon/plant.png");
+    GRASS("Grass", 0, 0, 1, 0, "com.javarush.lapkinu.ialandsim.entity.plant.Grass", "src/main/resources/img/icon/plant.png");
 
     private final String name;
     private int id;
@@ -143,10 +142,6 @@ public enum EntityProperties {
         Entity bear = new Bear(1, 1);
         Entity goat = new Goat(1, 1);
         Entity rabbit = new Rabbit(1, 1);
-        Entity plants = new Plants(1, 1);
-        List<Entity> listEntity = List.of(wolf, bear, goat, rabbit, plants);
-        System.out.print(getBestAnimalTable(goat, listEntity));
-        System.out.println(valueTable(formEntity(goat), formEntity(plants)));
         System.out.println(WOLF.getValueName());
         System.out.println(valueTable(WOLF, RABBIT));
         System.out.println(EntityProperties.values().length);
