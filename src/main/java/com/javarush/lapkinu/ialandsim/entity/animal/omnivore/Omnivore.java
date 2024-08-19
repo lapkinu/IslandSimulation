@@ -18,8 +18,6 @@ public abstract class Omnivore implements Entity {
     private double endY;
     private double currentX;
     private double currentY;
-    private double prevX;
-    private double prevY;
 
     protected Omnivore(int id, double weightMax, int speed, Image image) {
         this.id = id;
@@ -27,22 +25,6 @@ public abstract class Omnivore implements Entity {
         this.speed = speed;
         this.weight = weightMax;
         this.image = image;
-    }
-
-    public double getPrevX() {
-        return prevX;
-    }
-
-    public void setPrevX(double prevX) {
-        this.prevX = prevX;
-    }
-
-    public double getPrevY() {
-        return prevY;
-    }
-
-    public void setPrevY(double prevY) {
-        this.prevY = prevY;
     }
 
     @Override
@@ -95,12 +77,6 @@ public abstract class Omnivore implements Entity {
     public void eatPredator() {
         setWeight(getWeight() + 3);
         System.out.println("Это всеядное ест мясо.");
-    }
-    @Override
-    public void move() {
-    }
-    @Override
-    public void reproduce() {
     }
 
     @Override

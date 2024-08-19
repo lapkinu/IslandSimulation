@@ -85,7 +85,6 @@ public class Play {
                 executor.shutdown();
             }
         })::start);
-
         timerThread.start();
     }
 

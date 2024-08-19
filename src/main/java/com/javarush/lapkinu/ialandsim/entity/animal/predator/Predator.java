@@ -18,8 +18,6 @@ public abstract class Predator implements Entity {
     private double endY;
     private double currentX;
     private double currentY;
-    private double prevX;
-    private double prevY;
 
     protected Predator(int id, double weightMax, int speed, Image image) {
         this.id = id;
@@ -27,22 +25,6 @@ public abstract class Predator implements Entity {
         this.speed = speed;
         this.weight = weightMax;
         this.image = image;
-    }
-
-    public double getPrevX() {
-        return prevX;
-    }
-
-    public void setPrevX(double prevX) {
-        this.prevX = prevX;
-    }
-
-    public double getPrevY() {
-        return prevY;
-    }
-
-    public void setPrevY(double prevY) {
-        this.prevY = prevY;
     }
 
 
@@ -93,13 +75,6 @@ public abstract class Predator implements Entity {
         setWeight(getWeight() - (getWeightMax() * 0.02));
     }
 
-    @Override
-    public void move() {
-    }
-
-    @Override
-    public void reproduce() {
-    }
 
     @Override
     public Image getImage() {
