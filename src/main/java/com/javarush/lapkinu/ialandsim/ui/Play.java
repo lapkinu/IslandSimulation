@@ -79,6 +79,7 @@ public class Play {
                 render.animateEntities();
                 render.repaint();
                 updateStats(mapManager);
+                printLine();
             } else {
                 ((Timer) e.getSource()).stop();
                 executor.shutdown();
@@ -95,6 +96,10 @@ public class Play {
             stats.append("| ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" ");
         }
         statisticLabel.setText(stats.toString());
+    }
+
+    private  void printLine() {
+        System.out.println("______________________________________");
     }
 
 }

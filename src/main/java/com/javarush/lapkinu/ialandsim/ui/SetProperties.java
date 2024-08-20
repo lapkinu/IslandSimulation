@@ -104,7 +104,7 @@ public class SetProperties {
         inputPanel.add(delayComboBox);
 
 
-        JCheckBox audioCheckBox = new JCheckBox("  Feature");
+        JCheckBox audioCheckBox = new JCheckBox("  Фича \uD83D\uDE42");
         audioCheckBox.setSelected(false);
         audioCheckBox.addActionListener(e -> {
             if (audioCheckBox.isSelected() && !isPlaying) {
